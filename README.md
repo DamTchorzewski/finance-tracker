@@ -120,12 +120,13 @@ Monday (`workflows.md`, level 3).
 
 ## Documentation
 
-| File                                           | What it covers                                                      |
-| ---------------------------------------------- | ------------------------------------------------------------------- |
-| [docs/redesign-plan.md](docs/redesign-plan.md) | version 2: stack, features, design, data model, releases, decisions |
-| [docs/decisions.md](docs/decisions.md)         | technical decisions with the reason and the date                    |
-| [docs/deployment.md](docs/deployment.md)       | Firebase Hosting, the Google setup, GitHub variables, rollback      |
-| [docs/repository.md](docs/repository.md)       | GitHub description and topics, and the command that sets them       |
+| File                                           | What it covers                                                       |
+| ---------------------------------------------- | -------------------------------------------------------------------- |
+| [docs/redesign-plan.md](docs/redesign-plan.md) | version 2: stack, features, design, data model, releases, decisions  |
+| [docs/decisions.md](docs/decisions.md)         | technical decisions with the reason and the date                     |
+| [docs/deployment.md](docs/deployment.md)       | Firebase Hosting, the Google setup, GitHub variables, rollback       |
+| [docs/repository.md](docs/repository.md)       | GitHub description and topics, and the command that sets them        |
+| [docs/brand.md](docs/brand.md)                 | the Piggo name, logo, colours, type, illustrations, motion and icons |
 
 ## Team
 

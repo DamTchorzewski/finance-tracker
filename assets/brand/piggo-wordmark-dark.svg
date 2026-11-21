@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 48" role="img" aria-label="Piggo"><g fill="none" stroke="#f5f0f4" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 44 V25"/><circle cx="14" cy="25" r="9"/>
+<path d="M31.5 17 V34"/>
+<circle cx="47" cy="25" r="9"/><path d="M56 16.5 V36 C56 43.5 50 46 43 43"/>
+<circle cx="71" cy="25" r="9"/><path d="M80 16.5 V36 C80 43.5 74 46 67 43"/>
+<circle cx="96" cy="25" r="9"/>
+</g>
+<circle cx="31.5" cy="7.5" r="3.4" fill="#e19bde"/></svg>

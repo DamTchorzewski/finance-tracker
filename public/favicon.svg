@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>.p{fill:#943593}.p-s{stroke:#943593}@media (prefers-color-scheme:dark){.p{fill:#e19bde}.p-s{stroke:#e19bde}}</style>
+<defs><mask id="fav-cut" maskUnits="userSpaceOnUse" x="-8" y="-8" width="80" height="80">
+<rect x="-8" y="-8" width="80" height="80" fill="#fff"/>
+<path d="M23 19 H33" stroke="#000" stroke-width="4.6" stroke-linecap="round"/>
+
+</mask></defs>
+<g transform="translate(-1.6 0.9)">
+<g class="p" mask="url(#fav-cut)">
+<circle cx="29" cy="34" r="19"/>
+<rect x="43" y="27" width="14" height="13" rx="4.5"/>
+<path d="M35 17 Q40.5 9 46.5 10 Q47.5 16 43.8 22 Z" class="p-s" stroke-width="2" stroke-linejoin="round"/>
+<rect x="15" y="44" width="8.5" height="11.5" rx="4"/>
+<rect x="33" y="44" width="8.5" height="11.5" rx="4"/>
+</g>
+
+</g></svg>
