@@ -277,8 +277,28 @@ const pl = {
     newIncome: "Nowy wpływ",
     newTransfer: "Nowy przelew",
     newCategory: "Nowa kategoria",
+    searchOrAdd: "Szukaj, przejdź albo dodaj…",
+    footerQuick: "Wpisz kwotę i opis, np. „kawa 14 zł wczoraj”, a dodamy transakcję",
     hint: "Ctrl K",
     noResults: "Brak wyników",
+  },
+
+  shortcuts: {
+    title: "Skróty klawiszowe",
+    lead: "Działają wszędzie poza polami tekstowymi.",
+    palette: "Paleta poleceń",
+    newTransaction: "Nowa transakcja",
+    help: "Ta lista",
+    close: "Zamknij okno",
+    example:
+      "W palecie wpisz np. „Biedronka 86,40 wczoraj” albo „+5200 pensja”: kwota, data i kategoria uzupełnią się same.",
+    tipTitle: "Szybciej z klawiatury",
+    tipText:
+      "Naciśnij {keys} i wpisz „kawa 14 zł wczoraj”: transakcja doda się z kategorią i datą.",
+    tipTouch:
+      "Dotknij lupy u góry i wpisz „kawa 14 zł wczoraj”: transakcja doda się z kategorią i datą.",
+    tryIt: "Wypróbuj",
+    gotIt: "Rozumiem",
   },
 
   notFound: {
@@ -558,8 +578,28 @@ const en: Messages = {
     newIncome: "New income",
     newTransfer: "New transfer",
     newCategory: "New category",
+    searchOrAdd: "Search, go to or add…",
+    footerQuick: "Type an amount and a note, e.g. “coffee 14 yesterday”, to add a transaction",
     hint: "Ctrl K",
     noResults: "No results",
+  },
+
+  shortcuts: {
+    title: "Keyboard shortcuts",
+    lead: "They work everywhere except in text fields.",
+    palette: "Command palette",
+    newTransaction: "New transaction",
+    help: "This list",
+    close: "Close a window",
+    example:
+      "In the palette type e.g. “Lidl 86.40 yesterday” or “+5200 salary”: the amount, date and category fill in.",
+    tipTitle: "Faster with the keyboard",
+    tipText:
+      "Press {keys} and type “coffee 14 yesterday”: the transaction is added with a category and a date.",
+    tipTouch:
+      "Tap the magnifier at the top and type “coffee 14 yesterday”: the transaction is added with a category and a date.",
+    tryIt: "Try it",
+    gotIt: "Got it",
   },
 
   notFound: {

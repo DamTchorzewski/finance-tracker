@@ -25,10 +25,12 @@ import { Sheet } from "@/components/ui/sheet.tsx";
 import { resetDemo } from "@/data/demo-source.ts";
 import { useMe, useUpdateProfile } from "@/data/queries.ts";
 import { useI18n } from "@/i18n/i18n.tsx";
+import { isTyping, paletteKeys } from "@/lib/keyboard.ts";
 import { ComposerProvider, useComposer } from "./composer.tsx";
 import { usePrefs } from "./prefs.ts";
 
 const CommandPalette = lazy(() => import("@/features/palette/command-palette.tsx"));
+const ShortcutsDialog = lazy(() => import("@/features/palette/shortcuts-dialog.tsx"));
 
 type NavKey = "home" | "transactions" | "budgets" | "accounts" | "currencies" | "settings";
 
@@ -130,7 +132,7 @@ function SideRail({ onPalette }: { onPalette: () => void }) {
         <Search aria-hidden="true" className="size-4" />
         {t.palette.open}
         <kbd className="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold">
-          {t.palette.hint}
+          {paletteKeys()}
         </kbd>
       </button>
     </aside>
@@ -216,7 +218,25 @@ function TopBar({ name, onPalette }: { name: string | null | undefined; onPalett
             <RotateCcw aria-hidden="true" />
           </Button>
         )}
-        <Button variant="ghost" size="icon-sm" aria-label={t.palette.open} onClick={onPalette}>
+        <button
+          type="button"
+          onClick={onPalette}
+          aria-keyshortcuts="Control+K Meta+K"
+          className="mr-1 hidden h-10 w-64 items-center gap-2 rounded-full border border-border bg-surface px-3.5 text-sm text-muted transition-colors hover:border-muted hover:text-foreground md:flex"
+        >
+          <Search aria-hidden="true" className="size-4" />
+          <span className="truncate">{t.palette.searchOrAdd}</span>
+          <kbd className="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold">
+            {paletteKeys()}
+          </kbd>
+        </button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t.palette.open}
+          onClick={onPalette}
+          className="md:hidden"
+        >
           <Search aria-hidden="true" />
         </Button>
         {profile && (
@@ -302,27 +322,59 @@ function ProfileSync() {
   return null;
 }
 
-export function AppShell() {
-  const { t } = useI18n();
-  const { data } = useMe();
-  const [palette, setPalette] = useState(false);
-  const [more, setMore] = useState(false);
-  const path = useRouterState({ select: (state) => state.location.pathname });
-
+/**
+ * Ctrl K or ⌘K (anywhere) and "/" open the palette, "N" a new transaction, "?" the list of shortcuts. The single keys
+ * stay quiet while the user types in a field or a dialog is open.
+ */
+function KeyboardShortcuts({ onPalette, onHelp }: { onPalette: () => void; onHelp: () => void }) {
+  const composer = useComposer();
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        setPalette((open) => !open);
+        onPalette();
+        return;
+      }
+      if (event.ctrlKey || event.metaKey || event.altKey || isTyping(event)) return;
+      if (event.key === "/") {
+        event.preventDefault();
+        onPalette();
+      } else if (event.key === "?") {
+        event.preventDefault();
+        onHelp();
+      } else if (event.key.toLowerCase() === "n") {
+        event.preventDefault();
+        composer.open();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [onPalette, onHelp, composer]);
+  return null;
+}
+
+export function AppShell() {
+  const { t } = useI18n();
+  const { data } = useMe();
+  const [palette, setPalette] = useState(false);
+  const [shortcuts, setShortcuts] = useState(false);
+  const [more, setMore] = useState(false);
+  const path = useRouterState({ select: (state) => state.location.pathname });
+
+  // other parts of the app (the dashboard tip) ask for the palette with an event
+  useEffect(() => {
+    const open = () => setPalette(true);
+    window.addEventListener("ft:palette", open);
+    return () => window.removeEventListener("ft:palette", open);
   }, []);
 
   return (
     <ComposerProvider>
       <ProfileSync />
+      <KeyboardShortcuts
+        onPalette={() => setPalette((open) => !open)}
+        onHelp={() => setShortcuts(true)}
+      />
       <a
         href="#main"
         className="sr-only z-50 rounded-full bg-accent px-4 py-2 font-semibold text-accent-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -351,7 +403,16 @@ export function AppShell() {
       <MoreSheet open={more} onOpenChange={setMore} />
       {palette && (
         <Suspense fallback={null}>
-          <CommandPalette open={palette} onOpenChange={setPalette} />
+          <CommandPalette
+            open={palette}
+            onOpenChange={setPalette}
+            onShortcuts={() => setShortcuts(true)}
+          />
+        </Suspense>
+      )}
+      {shortcuts && (
+        <Suspense fallback={null}>
+          <ShortcutsDialog open={shortcuts} onOpenChange={setShortcuts} />
         </Suspense>
       )}
     </ComposerProvider>

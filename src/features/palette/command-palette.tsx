@@ -11,6 +11,7 @@ import {
   Moon,
   Plus,
   Shapes,
+  Keyboard,
   Settings,
   Sparkles,
   Target,
@@ -27,9 +28,11 @@ import { parseQuickAdd } from "@/lib/quick-add.ts";
 export default function CommandPalette({
   open,
   onOpenChange,
+  onShortcuts,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onShortcuts?: () => void;
 }) {
   const { t, fill, locale } = useI18n();
   const navigate = useNavigate();
@@ -138,6 +141,12 @@ export default function CommandPalette({
                   <Shapes />
                   <span className="text-foreground">{t.palette.newCategory}</span>
                 </Command.Item>
+                {onShortcuts && (
+                  <Command.Item className={item} onSelect={() => run(onShortcuts)}>
+                    <Keyboard />
+                    <span className="text-foreground">{t.shortcuts.title}</span>
+                  </Command.Item>
+                )}
                 {profile && (
                   <>
                     <Command.Item
@@ -183,6 +192,10 @@ export default function CommandPalette({
                 ))}
               </Command.Group>
             </Command.List>
+            <p className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border px-5 py-2.5 text-xs text-muted">
+              <span>{t.palette.footerQuick}</span>
+              <span className="ml-auto hidden sm:inline">↑↓ · Enter · Esc</span>
+            </p>
           </Command>
         </Dialog.Content>
       </Dialog.Portal>

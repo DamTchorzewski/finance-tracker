@@ -68,3 +68,28 @@ test("a new category from the transaction form is selected at once", async ({ pa
   await expect(page.getByText("Dodano kategorię: Rower")).toBeVisible();
   await expect(form.getByRole("button", { name: "Rower" })).toHaveAttribute("aria-pressed", "true");
 });
+
+test("the dashboard tip opens the palette and then stays hidden", async ({ page }) => {
+  await page.goto("/");
+  const tip = page.getByRole("complementary", { name: /Szybciej z klawiatury/ });
+  await expect(tip).toBeVisible();
+  await tip.getByRole("button", { name: "Wypróbuj" }).click();
+  await expect(page.getByPlaceholder(/Wpisz polecenie/)).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.reload();
+  await expect(page.getByText("Saldo wszystkich kont")).toBeVisible();
+  await expect(tip).toHaveCount(0);
+});
+
+test("question mark lists the shortcuts and N opens a new transaction", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "keyboard shortcuts");
+  await page.goto("/transactions");
+  await page.keyboard.press("?");
+  await expect(page.getByRole("dialog", { name: "Skróty klawiszowe" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("n");
+  await expect(page.getByRole("dialog", { name: "Nowa transakcja" })).toBeVisible();
+});
