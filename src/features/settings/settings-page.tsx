@@ -12,7 +12,15 @@ import { PageHeader, useBase } from "../shared.tsx";
 import { CategoriesSection } from "./categories-section.tsx";
 import { DataSection } from "./data-section.tsx";
 
-const ALL_WIDGETS: WidgetKey[] = ["balance", "cashflow", "spending", "budgets", "recent", "rates"];
+const ALL_WIDGETS: WidgetKey[] = [
+  "balance",
+  "cashflow",
+  "spending",
+  "budgets",
+  "goals",
+  "recent",
+  "rates",
+];
 const HUES = [160, 200, 250, 290, 330, 20, 60, 120];
 
 export default function SettingsPage() {

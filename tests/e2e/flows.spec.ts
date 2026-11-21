@@ -105,3 +105,29 @@ test("the monthly report is ready to save as a PDF", async ({ page }) => {
   await page.emulateMedia({ media: "print" });
   await expect(page.getByRole("button", { name: "Pobierz PDF" })).toBeHidden();
 });
+
+test("a goal fills when money is put in and is reached with a cheer", async ({ page }) => {
+  await page.goto("/goals");
+  await page.getByRole("button", { name: "Nowy cel" }).first().click();
+  const sheet = page.getByRole("dialog", { name: "Nowy cel" });
+  await sheet.getByLabel("Na co odkładasz").fill("Rower");
+  await sheet.getByLabel(/Kwota docelowa/).fill("1000");
+  await sheet.getByRole("button", { name: "Zapisz" }).click();
+
+  const card = page.getByRole("listitem").filter({ hasText: "Rower" });
+  await expect(card.getByText("0%")).toBeVisible();
+  await card.getByRole("button", { name: "Wpłać" }).click();
+  const put = page.getByRole("dialog", { name: "Rower" });
+  await put.getByLabel(/Kwota/).fill("1000");
+  await put.getByRole("button", { name: "Wpłać" }).last().click();
+  await expect(page.getByText(/Osiągnięty cel: Rower/)).toBeVisible();
+  await expect(card.getByText("Cel osiągnięty")).toBeVisible();
+  await expect(card.getByText("100%")).toBeVisible();
+});
+
+test("a goal linked to the savings account follows its balance", async ({ page }) => {
+  await page.goto("/goals");
+  const card = page.getByRole("listitem").filter({ hasText: "Poduszka finansowa" });
+  await expect(card.getByText(/śledzi konto/)).toBeVisible();
+  await expect(card.getByRole("button", { name: "Wpłać" })).toHaveCount(0);
+});

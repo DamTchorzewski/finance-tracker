@@ -80,6 +80,14 @@ export function apiSource(token: TokenGetter): DataSource {
     updateBudget: (id, patch) => send("PATCH", `/budgets/${id}`, patch),
     deleteBudget: (id) => send("DELETE", `/budgets/${id}`),
 
+    goals: () => get("/goals"),
+    createGoal: (input) => send("POST", "/goals", input),
+    updateGoal: (id, patch) => send("PATCH", `/goals/${id}`, patch),
+    deleteGoal: (id) => send("DELETE", `/goals/${id}`),
+    contributions: (goalId) => get(`/goals/${goalId}/contributions`),
+    contribute: (goalId, input) => send("POST", `/goals/${goalId}/contributions`, input),
+    deleteContribution: (goalId, id) => send("DELETE", `/goals/${goalId}/contributions/${id}`),
+
     importV1: () => send("POST", "/import/v1"),
   };
 }

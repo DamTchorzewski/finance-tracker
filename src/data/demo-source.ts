@@ -7,6 +7,8 @@ import {
   type Account,
   type Budget,
   type Category,
+  type Contribution,
+  type Goal,
   type Me,
   type Profile,
   type Transaction,
@@ -24,6 +26,8 @@ interface State {
   categories: Category[];
   transactions: Transaction[];
   budgets: Budget[];
+  goals?: Omit<Goal, "savedMinor">[];
+  contributions?: Contribution[];
 }
 
 const DEFAULT_PROFILE: Profile = {
@@ -34,7 +38,7 @@ const DEFAULT_PROFILE: Profile = {
   theme: "system",
   accentHue: 160,
   privacyMode: false,
-  widgets: ["balance", "cashflow", "spending", "budgets", "recent", "rates"],
+  widgets: ["balance", "cashflow", "spending", "goals", "budgets", "recent", "rates"],
 };
 
 let counter = 0;
@@ -297,7 +301,88 @@ export function sampleState(locale: "pl" | "en" = "pl", now = today()): State {
     updatedAt: at,
   });
 
+  const goal = (
+    id: string,
+    name: string,
+    targetMinor: number,
+    targetDate: string | null,
+    icon: string,
+    colour: Goal["colour"],
+    accountId: string | null = null,
+  ): Omit<Goal, "savedMinor"> => ({
+    id,
+    name,
+    targetMinor,
+    currency: "PLN",
+    targetDate,
+    accountId,
+    icon,
+    colour,
+    archived: false,
+    order: 0,
+    createdAt: at,
+    updatedAt: at,
+  });
+  const goals = [
+    goal(
+      "g-trip",
+      pl ? "Wakacje w Lizbonie" : "Holiday in Lisbon",
+      800_000,
+      addMonths(now, 7),
+      "plane",
+      "sky",
+    ),
+    goal(
+      "g-cushion",
+      pl ? "Poduszka finansowa" : "Rainy-day fund",
+      3_000_000,
+      null,
+      "piggy-bank",
+      "teal",
+      "a-savings",
+    ),
+    goal(
+      "g-laptop",
+      pl ? "Nowy laptop" : "New laptop",
+      650_000,
+      addMonths(now, 4),
+      "laptop",
+      "violet",
+    ),
+  ].map((g, order) => ({ ...g, order }));
+  const contributions: Contribution[] = [];
+  for (let month = 6; month >= 1; month--) {
+    contributions.push({
+      id: newId(),
+      goalId: "g-trip",
+      amountMinor: 60_000,
+      date: addMonths(now, -month).slice(0, 8) + "11",
+      note: "",
+      createdAt: at,
+    });
+  }
+  contributions.push(
+    {
+      id: newId(),
+      goalId: "g-laptop",
+      amountMinor: 150_000,
+      date: addMonths(now, -2),
+      note: pl ? "Premia" : "Bonus",
+      createdAt: at,
+    },
+    {
+      id: newId(),
+      goalId: "g-laptop",
+      amountMinor: 50_000,
+      date: addMonths(now, -1),
+      note: "",
+      createdAt: at,
+    },
+  );
+
   return {
+    goals,
+    contributions,
     profile: { ...DEFAULT_PROFILE, locale, displayName: pl ? "Ola" : "Alex" },
     accounts,
     categories,
@@ -314,7 +399,13 @@ export function sampleState(locale: "pl" | "en" = "pl", now = today()): State {
 function load(): State {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as State;
+    if (raw) {
+      const state = JSON.parse(raw) as State;
+      // a demo saved before the goals existed gets none, and keeps working
+      state.goals ??= [];
+      state.contributions ??= [];
+      return state;
+    }
   } catch {
     // a broken value is replaced by the sample data
   }
@@ -581,6 +672,88 @@ export const demoSource: DataSource = {
   deleteBudget: (id) =>
     change((s) => {
       s.budgets = s.budgets.filter((b) => b.id !== id);
+    }),
+
+  goals: () =>
+    read((s) =>
+      (s.goals ?? []).map((g) => ({
+        ...g,
+        savedMinor: g.accountId
+          ? (() => {
+              const account = s.accounts.find((a) => a.id === g.accountId);
+              return account ? account.openingBalanceMinor + account.flowMinor : 0;
+            })()
+          : (s.contributions ?? [])
+              .filter((c) => c.goalId === g.id)
+              .reduce((sum, c) => sum + c.amountMinor, 0),
+      })),
+    ).then((goals) => goals.sort((a, b) => a.order - b.order)),
+  createGoal: (input) =>
+    change((s) => {
+      if (input.accountId) {
+        const account = s.accounts.find((a) => a.id === input.accountId);
+        if (!account) throw notFound("account");
+        if (account.currency !== (input.currency ?? s.profile.baseCurrency)) {
+          throw invalid("The account is in another currency");
+        }
+      }
+      const at = stamp();
+      const goal = {
+        name: input.name,
+        targetMinor: input.targetMinor,
+        currency: input.currency ?? s.profile.baseCurrency,
+        targetDate: input.targetDate ?? null,
+        accountId: input.accountId ?? null,
+        icon: input.icon ?? "piggy-bank",
+        colour: input.colour ?? "teal",
+        archived: false,
+        order: (s.goals ?? []).length,
+        id: newId(),
+        createdAt: at,
+        updatedAt: at,
+      };
+      (s.goals ??= []).push(goal);
+      return goal;
+    }).then(async (goal) => (await demoSource.goals()).find((g) => g.id === goal.id)!),
+  updateGoal: (id, patch) =>
+    change((s) => {
+      const goal = (s.goals ?? []).find((g) => g.id === id);
+      if (!goal) throw notFound("goal");
+      Object.assign(goal, patch, { updatedAt: stamp() });
+    }).then(async () => (await demoSource.goals()).find((g) => g.id === id)!),
+  deleteGoal: (id) =>
+    change((s) => {
+      s.goals = (s.goals ?? []).filter((g) => g.id !== id);
+      s.contributions = (s.contributions ?? []).filter((c) => c.goalId !== id);
+    }),
+  contributions: (goalId) =>
+    read((s) =>
+      (s.contributions ?? [])
+        .filter((c) => c.goalId === goalId)
+        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt)),
+    ),
+  contribute: (goalId, input) =>
+    change((s) => {
+      const goal = (s.goals ?? []).find((g) => g.id === goalId);
+      if (!goal) throw notFound("goal");
+      if (goal.accountId) throw new DataError(409, "conflict", "The goal follows an account");
+      if (!Number.isInteger(input.amountMinor) || input.amountMinor === 0) throw invalid("Amount");
+      const contribution: Contribution = {
+        id: newId(),
+        goalId,
+        amountMinor: input.amountMinor,
+        date: input.date,
+        note: input.note ?? "",
+        createdAt: stamp(),
+      };
+      (s.contributions ??= []).push(contribution);
+      return contribution;
+    }),
+  deleteContribution: (goalId, id) =>
+    change((s) => {
+      s.contributions = (s.contributions ?? []).filter(
+        (c) => !(c.goalId === goalId && c.id === id),
+      );
     }),
 
   importV1: () => Promise.reject(new DataError(409, "conflict", "The demo has no version 1 data")),

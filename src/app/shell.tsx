@@ -7,6 +7,7 @@ import {
   Landmark,
   LayoutDashboard,
   LogOut,
+  PiggyBank,
   Moon,
   Plus,
   RotateCcw,
@@ -32,12 +33,14 @@ import { usePrefs } from "./prefs.ts";
 const CommandPalette = lazy(() => import("@/features/palette/command-palette.tsx"));
 const ShortcutsDialog = lazy(() => import("@/features/palette/shortcuts-dialog.tsx"));
 
-type NavKey = "home" | "transactions" | "budgets" | "accounts" | "currencies" | "settings";
+type NavKey =
+  "home" | "transactions" | "budgets" | "goals" | "accounts" | "currencies" | "settings";
 
 const NAV: { key: NavKey; to: string; icon: LucideIcon }[] = [
   { key: "home", to: "/", icon: LayoutDashboard },
   { key: "transactions", to: "/transactions", icon: ArrowLeftRight },
   { key: "budgets", to: "/budgets", icon: Target },
+  { key: "goals", to: "/goals", icon: PiggyBank },
   { key: "accounts", to: "/accounts", icon: Landmark },
   { key: "currencies", to: "/currencies", icon: Coins },
   { key: "settings", to: "/settings", icon: Settings },
@@ -277,7 +280,7 @@ function MoreSheet({
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title={t.nav.more}>
       <nav aria-label={t.nav.more} className="flex flex-col gap-1 pb-2">
-        {NAV.filter((n) => ["accounts", "currencies", "settings"].includes(n.key)).map(
+        {NAV.filter((n) => ["goals", "accounts", "currencies", "settings"].includes(n.key)).map(
           ({ key, to, icon: Icon }) => (
             <Link
               key={key}

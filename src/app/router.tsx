@@ -22,6 +22,7 @@ const BudgetsPage = lazy(() => import("@/features/budgets/budgets-page.tsx"));
 const CurrenciesPage = lazy(() => import("@/features/currencies/currencies-page.tsx"));
 const SettingsPage = lazy(() => import("@/features/settings/settings-page.tsx"));
 const ReportPage = lazy(() => import("@/features/report/report-page.tsx"));
+const GoalsPage = lazy(() => import("@/features/goals/goals-page.tsx"));
 
 // The search parameters are checked by hand (a wrong value is dropped, not an error), so the router does not pull a
 // schema library into the first load.
@@ -148,6 +149,12 @@ const settingsRoute = createRoute({
   component: SettingsPage,
 });
 
+const goalsRoute = createRoute({
+  getParentRoute: () => appRoute,
+  path: "/goals",
+  component: GoalsPage,
+});
+
 const reportRoute = createRoute({
   getParentRoute: () => appRoute,
   path: "/report",
@@ -171,6 +178,7 @@ const routeTree = rootRoute.addChildren([
     currenciesRoute,
     settingsRoute,
     reportRoute,
+    goalsRoute,
   ]),
 ]);
 
