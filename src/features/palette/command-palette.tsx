@@ -12,6 +12,7 @@ import {
   Plus,
   Shapes,
   Keyboard,
+  FileText,
   Settings,
   Sparkles,
   Target,
@@ -58,6 +59,7 @@ export default function CommandPalette({
     { to: "/accounts", label: t.nav.accounts, icon: Landmark },
     { to: "/currencies", label: t.nav.currencies, icon: Coins },
     { to: "/settings", label: t.nav.settings, icon: Settings },
+    { to: "/report", label: t.report.open, icon: FileText },
   ] as const;
 
   return (

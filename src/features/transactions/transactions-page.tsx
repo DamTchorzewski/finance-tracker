@@ -1,10 +1,10 @@
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { Inbox, Plus, Search, SearchX } from "lucide-react";
+import { FileText, Inbox, Plus, Search, SearchX } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useComposer } from "@/app/composer.tsx";
 import { Amount } from "@/components/ui/amount.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import { Button, buttonStyles } from "@/components/ui/button.tsx";
 import { Card, EmptyState, Skeleton } from "@/components/ui/card.tsx";
 import { Input, Select } from "@/components/ui/field.tsx";
 import { useAccounts, useCategories, useTransactions } from "@/data/queries.ts";
@@ -93,10 +93,16 @@ export default function TransactionsPage() {
   return (
     <>
       <PageHeader title={t.tx.title}>
-        <Button onClick={() => composer.open()} className="max-md:hidden">
-          <Plus aria-hidden="true" />
-          {t.tx.new}
-        </Button>
+        <div className="flex gap-2">
+          <Link to="/report" className={buttonStyles({ variant: "secondary" })}>
+            <FileText aria-hidden="true" />
+            {t.report.download}
+          </Link>
+          <Button onClick={() => composer.open()} className="max-md:hidden">
+            <Plus aria-hidden="true" />
+            {t.tx.new}
+          </Button>
+        </div>
       </PageHeader>
 
       <div className="mb-4 flex flex-col gap-3">
