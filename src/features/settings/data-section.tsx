@@ -1,8 +1,9 @@
-import { Download, History, Upload } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Download, FileText, History, Upload } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useSession } from "@/auth/session.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import { Button, buttonStyles } from "@/components/ui/button.tsx";
 import { Card, CardHeader } from "@/components/ui/card.tsx";
 import { Field, Select } from "@/components/ui/field.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
@@ -284,6 +285,13 @@ export function DataSection() {
           <Download aria-hidden="true" />
           {t.settings.exportCsv}
         </Button>
+        <Link
+          to="/report"
+          className={buttonStyles({ variant: "outline", className: "justify-start" })}
+        >
+          <FileText aria-hidden="true" />
+          {t.report.open}
+        </Link>
         <Button
           variant="outline"
           className="justify-start"

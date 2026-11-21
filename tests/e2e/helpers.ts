@@ -8,6 +8,7 @@ export const APP_ROUTES = [
   "/budgets",
   "/currencies",
   "/settings",
+  "/report",
 ];
 export const PUBLIC_ROUTES = ["/login", "/register"];
 

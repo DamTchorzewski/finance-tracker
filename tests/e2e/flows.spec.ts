@@ -93,3 +93,15 @@ test("question mark lists the shortcuts and N opens a new transaction", async ({
   await page.keyboard.press("n");
   await expect(page.getByRole("dialog", { name: "Nowa transakcja" })).toBeVisible();
 });
+
+test("the monthly report is ready to save as a PDF", async ({ page }) => {
+  await page.goto("/transactions");
+  await page.getByRole("link", { name: "Pobierz PDF" }).click();
+  await expect(page.getByRole("heading", { name: "Raport miesięczny" })).toBeVisible();
+  await expect(page).toHaveTitle(/^raport-\d{4}-\d{2}$/);
+  await expect(page.getByRole("heading", { name: /Wszystkie transakcje/ })).toBeVisible();
+  await page.getByRole("button", { name: "Poprzedni miesiąc" }).click();
+  await expect(page).toHaveURL(/month=\d{4}-\d{2}/);
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByRole("button", { name: "Pobierz PDF" })).toBeHidden();
+});

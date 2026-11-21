@@ -92,7 +92,7 @@ function SideRail({ onPalette }: { onPalette: () => void }) {
   const { t } = useI18n();
   const composer = useComposer();
   return (
-    <aside className="sticky top-0 hidden h-dvh flex-col gap-6 border-r border-border bg-surface/60 px-3 py-5 md:flex lg:w-64 lg:px-4">
+    <aside className="sticky top-0 hidden h-dvh flex-col gap-6 border-r border-border bg-surface/60 px-3 py-5 md:flex lg:w-64 lg:px-4 print:hidden">
       <div className="px-1.5 lg:px-2">
         <span className="lg:hidden">
           <Logo compact />
@@ -131,7 +131,7 @@ function SideRail({ onPalette }: { onPalette: () => void }) {
       >
         <Search aria-hidden="true" className="size-4" />
         {t.palette.open}
-        <kbd className="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold">
+        <kbd className="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold whitespace-nowrap">
           {paletteKeys()}
         </kbd>
       </button>
@@ -147,7 +147,7 @@ function Dock({ onMore }: { onMore: () => void }) {
   return (
     <nav
       aria-label={t.nav.main}
-      className="glass safe-bottom fixed inset-x-3 bottom-3 z-30 flex items-center gap-1 rounded-[1.6rem] border border-border px-2 shadow-float md:hidden"
+      className="glass safe-bottom fixed inset-x-3 bottom-3 z-30 flex items-center gap-1 rounded-[1.6rem] border border-border px-2 shadow-float md:hidden print:hidden"
     >
       <Link to="/" activeOptions={{ exact: true }} className={item}>
         <LayoutDashboard aria-hidden="true" className="size-5" />
@@ -192,7 +192,7 @@ function TopBar({ name, onPalette }: { name: string | null | undefined; onPalett
     (profile?.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   return (
-    <header className="glass sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border px-4 md:px-6">
+    <header className="glass sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border px-4 md:px-6 print:hidden">
       <span className="md:hidden">
         <Logo compact />
       </span>
@@ -222,11 +222,11 @@ function TopBar({ name, onPalette }: { name: string | null | undefined; onPalett
           type="button"
           onClick={onPalette}
           aria-keyshortcuts="Control+K Meta+K"
-          className="mr-1 hidden h-10 w-64 items-center gap-2 rounded-full border border-border bg-surface px-3.5 text-sm text-muted transition-colors hover:border-muted hover:text-foreground md:flex"
+          className="mr-1 hidden h-10 w-48 items-center gap-2 rounded-full border border-border bg-surface px-3.5 text-sm text-muted transition-colors hover:border-muted hover:text-foreground md:flex lg:w-72"
         >
           <Search aria-hidden="true" className="size-4" />
           <span className="truncate">{t.palette.searchOrAdd}</span>
-          <kbd className="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold">
+          <kbd className="ml-auto rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold whitespace-nowrap">
             {paletteKeys()}
           </kbd>
         </button>
@@ -391,7 +391,7 @@ export function AppShell() {
           <main
             id="main"
             key={path}
-            className="mx-auto w-full max-w-6xl animate-rise px-4 pt-5 pb-32 md:px-6 md:pb-12"
+            className="mx-auto w-full max-w-6xl animate-rise px-4 pt-5 pb-32 md:px-6 md:pb-12 print:max-w-none print:animate-none print:p-0"
           >
             <Suspense fallback={<FullPageSpinner />}>
               <Outlet />
