@@ -3,3 +3,8 @@ allowBuilds:
   esbuild: true
   "@firebase/util": false
   protobufjs: false
+
+# firebase pulls an old @grpc/grpc-js through Firestore (the web app does not use Firestore); the patched release
+# closes GHSA-m9gg-hp2v-232j. Remove when firebase depends on it itself.
+overrides:
+  "@grpc/grpc-js": ">=1.13.6"
