@@ -8,6 +8,9 @@ import type {
   BudgetPatch,
   CategoryCreate,
   CategoryPatch,
+  ContributionCreate,
+  GoalCreate,
+  GoalPatch,
   Me,
   ProfilePatch,
   TransactionCreate,
@@ -185,6 +188,47 @@ export function useBudgetMutations() {
       onSuccess: done,
     }),
     remove: useMutation({ mutationFn: (id: string) => source.deleteBudget(id), onSuccess: done }),
+  };
+}
+
+export function useGoals() {
+  const source = useSource();
+  return useQuery({ queryKey: [source.kind, "goals"], queryFn: () => source.goals() });
+}
+
+export function useContributions(goalId: string | undefined) {
+  const source = useSource();
+  return useQuery({
+    queryKey: [source.kind, "goals", goalId, "contributions"],
+    queryFn: () => source.contributions(goalId!),
+    enabled: Boolean(goalId),
+  });
+}
+
+export function useGoalMutations() {
+  const source = useSource();
+  const invalidate = useInvalidate();
+  const done = () => invalidate("goals");
+  return {
+    create: useMutation({
+      mutationFn: (input: GoalCreate) => source.createGoal(input),
+      onSuccess: done,
+    }),
+    update: useMutation({
+      mutationFn: ({ id, patch }: { id: string; patch: GoalPatch }) => source.updateGoal(id, patch),
+      onSuccess: done,
+    }),
+    remove: useMutation({ mutationFn: (id: string) => source.deleteGoal(id), onSuccess: done }),
+    contribute: useMutation({
+      mutationFn: ({ goalId, input }: { goalId: string; input: ContributionCreate }) =>
+        source.contribute(goalId, input),
+      onSuccess: done,
+    }),
+    uncontribute: useMutation({
+      mutationFn: ({ goalId, id }: { goalId: string; id: string }) =>
+        source.deleteContribution(goalId, id),
+      onSuccess: done,
+    }),
   };
 }
 

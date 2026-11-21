@@ -1,11 +1,19 @@
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { ArrowDownRight, ArrowRight, ArrowUpRight, Inbox, Plus, Target } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowRight,
+  ArrowUpRight,
+  Inbox,
+  PiggyBank,
+  Plus,
+  Target,
+} from "lucide-react";
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { useComposer } from "@/app/composer.tsx";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button, buttonStyles } from "@/components/ui/button.tsx";
 import { Card, CardHeader, EmptyState, Skeleton } from "@/components/ui/card.tsx";
-import { useAccounts, useBudgets, useTransactions } from "@/data/queries.ts";
+import { useAccounts, useBudgets, useGoals, useTransactions } from "@/data/queries.ts";
 import type { WidgetKey } from "@/data/types.ts";
 import { useI18n } from "@/i18n/i18n.tsx";
 import { cn } from "@/lib/cn.ts";
@@ -17,7 +25,9 @@ import {
   today,
   type PeriodKey,
 } from "@/lib/dates.ts";
+import { goalPace } from "@/lib/goals.ts";
 import { colourVar } from "@/lib/icons.ts";
+import { ProgressRing } from "@/components/ui/progress-ring.tsx";
 import {
   budgetProgress,
   byCategory,
@@ -82,6 +92,7 @@ export default function DashboardPage() {
   const previous = useTransactions(before);
   const monthTx = useTransactions(month);
   const budgets = useBudgets();
+  const goals = (useGoals().data ?? []).filter((g) => !g.archived);
   const categories = useCategoryMap();
 
   // the "add expense" shortcut of the installed app opens the form
@@ -372,6 +383,58 @@ export default function DashboardPage() {
             </li>
           ))}
         </ul>
+      </Card>
+    ),
+
+    goals: (
+      <Card key="goals" aria-labelledby="w-goals">
+        <CardHeader
+          id="w-goals"
+          title={t.goals.widget}
+          action={
+            <Link to="/goals" className={buttonStyles({ variant: "ghost", size: "sm" })}>
+              {t.dashboard.seeAll}
+            </Link>
+          }
+        />
+        {goals.length === 0 ? (
+          <EmptyState icon={<PiggyBank />} title={t.goals.empty} />
+        ) : (
+          <ul className="space-y-3">
+            {goals.slice(0, 3).map((goal) => {
+              const pace = goalPace(goal);
+              return (
+                <li key={goal.id}>
+                  <Link
+                    to="/goals"
+                    className="-mx-2 flex items-center gap-3 rounded-2xl px-2 py-1.5 hover:bg-surface-2"
+                  >
+                    <ProgressRing
+                      ratio={pace.ratio}
+                      colour={colourVar(goal.colour)}
+                      size={48}
+                      stroke={6}
+                    >
+                      <span className="text-[11px] font-bold">
+                        {new Intl.NumberFormat(locale === "pl" ? "pl-PL" : "en-GB", {
+                          style: "percent",
+                          maximumFractionDigits: 0,
+                        }).format(Math.min(pace.ratio, 9.99))}
+                      </span>
+                    </ProgressRing>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-semibold">{goal.name}</span>
+                      <span className="block text-xs text-muted">
+                        <Amount minor={goal.savedMinor} currency={goal.currency} /> /{" "}
+                        <Amount minor={goal.targetMinor} currency={goal.currency} />
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </Card>
     ),
 

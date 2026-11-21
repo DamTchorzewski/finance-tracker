@@ -9,6 +9,11 @@ import type {
   Category,
   CategoryCreate,
   CategoryPatch,
+  Contribution,
+  ContributionCreate,
+  Goal,
+  GoalCreate,
+  GoalPatch,
   ImportResult,
   Me,
   MidTable,
@@ -50,6 +55,14 @@ export interface DataSource {
   createBudget(input: BudgetCreate): Promise<Budget>;
   updateBudget(id: string, patch: BudgetPatch): Promise<Budget>;
   deleteBudget(id: string): Promise<void>;
+
+  goals(): Promise<Goal[]>;
+  createGoal(input: GoalCreate): Promise<Goal>;
+  updateGoal(id: string, patch: GoalPatch): Promise<Goal>;
+  deleteGoal(id: string): Promise<void>;
+  contributions(goalId: string): Promise<Contribution[]>;
+  contribute(goalId: string, input: ContributionCreate): Promise<Contribution>;
+  deleteContribution(goalId: string, id: string): Promise<void>;
 
   importV1(): Promise<ImportResult>;
 }

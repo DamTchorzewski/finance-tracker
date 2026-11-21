@@ -6,6 +6,7 @@ export const APP_ROUTES = [
   "/transactions",
   "/accounts",
   "/budgets",
+  "/goals",
   "/currencies",
   "/settings",
   "/report",
