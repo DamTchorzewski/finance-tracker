@@ -11,6 +11,10 @@
 
 ## About
 
+> **Version 2 in progress.** This repository is the successor of the team project
+> [`personal-finance-manager`](https://github.com/DamTchorzewski/personal-finance-manager) and is being rebuilt from
+> scratch: see [docs/redesign-plan.md](docs/redesign-plan.md). The text below still describes the copied version 1.
+
 <a href="https://damtchorzewski.github.io/personal-finance-manager/"><img src="docs/images/open-site.png" alt="Open the live site" width="130"></a>
 
 **Wallet Manager** is a cutting-edge application tailored for efficient personal finance management. With a user-centric
@@ -135,6 +139,7 @@ Commits in English. `deploy.yml` builds every push to `main` and publishes it to
 | File                                | What it covers                                                |
 | ----------------------------------- | ------------------------------------------------------------- |
 | [docs/repository.md](docs/repository.md) | GitHub description and topics, and the command that sets them |
+| [docs/redesign-plan.md](docs/redesign-plan.md) | version 2: stack, features, design, data model, releases, the owner's decisions |
 
 ## Team
 
