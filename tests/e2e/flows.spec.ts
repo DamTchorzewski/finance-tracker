@@ -54,3 +54,17 @@ test("the transaction filters live in the address", async ({ page }) => {
   await expect(page.getByLabel("Filtry")).toHaveValue("income");
   await expect(page.getByRole("radio", { name: "Rok" })).toHaveAttribute("aria-checked", "true");
 });
+
+test("a new category from the transaction form is selected at once", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Nowa transakcja" }).first().click();
+  const form = page.getByRole("dialog", { name: "Nowa transakcja" });
+  await form.getByRole("button", { name: "Nowa kategoria" }).click();
+  const sheet = page.getByRole("dialog", { name: "Nowa kategoria" });
+  await sheet.getByLabel("Nazwa").fill("Rower");
+  await sheet.getByRole("button", { name: "limonkowy" }).click();
+  await sheet.getByRole("button", { name: "bike" }).click();
+  await sheet.getByRole("button", { name: "Zapisz" }).click();
+  await expect(page.getByText("Dodano kategorię: Rower")).toBeVisible();
+  await expect(form.getByRole("button", { name: "Rower" })).toHaveAttribute("aria-pressed", "true");
+});

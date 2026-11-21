@@ -11,6 +11,7 @@ import {
 import type { Transaction, TxKind } from "@/data/types.ts";
 
 const TransactionSheet = lazy(() => import("@/features/transactions/transaction-sheet.tsx"));
+const CategorySheet = lazy(() => import("@/features/categories/category-sheet.tsx"));
 
 export interface Draft {
   kind?: TxKind;
@@ -24,6 +25,8 @@ export interface Draft {
 interface Composer {
   /** Opens the transaction form: empty, prefilled (quick add) or for an existing transaction. */
   open: (input?: { draft?: Draft; edit?: Transaction }) => void;
+  /** Opens the form for a new category. */
+  openCategory: () => void;
 }
 
 const Context = createContext<Composer | null>(null);
@@ -45,7 +48,9 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
       setState((old) => ({ open: true, draft: input?.draft, edit: input?.edit, key: old.key + 1 })),
     [],
   );
-  const value = useMemo(() => ({ open }), [open]);
+  const [category, setCategory] = useState(0);
+  const openCategory = useCallback(() => setCategory((n) => n + 1), []);
+  const value = useMemo(() => ({ open, openCategory }), [open, openCategory]);
 
   return (
     <Context.Provider value={value}>
@@ -59,6 +64,11 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
             edit={state.edit}
             onOpenChange={(next) => setState((old) => ({ ...old, open: next }))}
           />
+        </Suspense>
+      )}
+      {category > 0 && (
+        <Suspense fallback={null}>
+          <CategorySheet key={category} open onOpenChange={(next) => !next && setCategory(0)} />
         </Suspense>
       )}
     </Context.Provider>
