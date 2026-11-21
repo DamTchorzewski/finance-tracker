@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" aria-hidden="true" focusable="false"><style>
+.sc-ring{fill:none;stroke:var(--ill-accent,#943593);stroke-width:3;opacity:0;transform-origin:48px 48px;animation:sc-ring 700ms 120ms ease-out both}
+.sc-disc{fill:var(--ill-accent,#943593);transform-origin:48px 48px;animation:sc-disc 420ms cubic-bezier(.34,1.56,.64,1) both}
+.sc-tick{fill:none;stroke:var(--ill-on-accent,#ffffff);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;animation:sc-tick 300ms 260ms cubic-bezier(.65,0,.35,1) forwards}
+@keyframes sc-disc{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes sc-ring{0%{opacity:.6;transform:scale(.8)}100%{opacity:0;transform:scale(1.25)}}
+@keyframes sc-tick{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.sc-disc,.sc-ring{animation:none}.sc-tick{animation:none;stroke-dashoffset:0}}
+</style>
+<circle class="sc-ring" cx="48" cy="48" r="40"/><circle class="sc-disc" cx="48" cy="48" r="34"/>
+<path class="sc-tick" d="M32 49 L43 60 L64 38"/></svg>

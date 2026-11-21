@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" aria-hidden="true" focusable="false"><style>
+.ia{fill:var(--ill-accent,#943593)}.isoft{fill:var(--ill-accent-soft,#fbe2f9)}.is{fill:var(--ill-surface,#ffffff)}
+.is2{fill:var(--ill-surface-2,#f3ecf2)}.ipa{fill:var(--ill-paper,#ffffff)}.ik{fill:var(--ill-ink,#1d151d)}.im{fill:var(--ill-muted,#7a6b79)}.ip{fill:var(--ill-pig-light,#fff7fe)}
+.ic{fill:var(--ill-coin,#f1ba4b)}.icd{fill:var(--ill-coin-deep,#ad721c)}
+.il,.iks,.ims,.ias,.icds,.ips{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.il{stroke:var(--ill-line,#e3d7e2);stroke-width:2.5}.iks{stroke:var(--ill-ink,#1d151d);stroke-width:3}
+.ims{stroke:var(--ill-muted,#7a6b79);stroke-width:3}.ias{stroke:var(--ill-accent,#943593);stroke-width:3}
+.icds{stroke:var(--ill-coin-deep,#ad721c);stroke-width:2}.ips{stroke:var(--ill-pig-light,#fff7fe);stroke-width:3}
+.ibs{stroke:var(--ill-surface,#ffffff);stroke-width:3}
+</style>
+<circle class="isoft" cx="120" cy="82" r="66"/><ellipse class="is2" cx="120" cy="158" rx="86" ry="7"/>
+<g>
+<rect class="il" x="124" y="62" width="66" height="88" rx="14" style="stroke-width:3"/>
+<rect class="is2" x="130" y="52" width="54" height="10" rx="4"/>
+<path class="ips" style="stroke-width:3" opacity=".7" d="M133 76 V92"/></g>
+<path class="iks" d="M157 52 V20"/><path class="ia" d="M157 20 H183 L176 28 L183 36 H157 Z"/>
+<g transform="translate(34 86) scale(1.1)">
+<path class="ias" style="stroke-width:2.8" d="M10.5 30 C5 30 4 23.5 8 23 C11 22.6 11.2 26.5 8.5 26.5"/>
+<g class="ia"><circle cx="29" cy="34" r="19"/><rect x="43" y="27" width="14" height="13" rx="4.5"/>
+<path d="M35 17 Q40.5 9 46.5 10 Q47.5 16 43.8 22 Z"/><rect x="15" y="44" width="8.5" height="11.5" rx="4"/><rect x="33" y="44" width="8.5" height="11.5" rx="4"/></g>
+<path class="iks" style="stroke-width:3.2" d="M23 18.5 H33"/><circle class="ik" cx="40" cy="28" r="2.4"/>
+<circle class="isoft" cx="49.5" cy="33.5" r="1.6"/><circle class="isoft" cx="53.5" cy="33.5" r="1.6"/>
+<path class="ips" style="stroke-width:2" opacity=".55" d="M17 27 Q20 21 26 19.5"/>
+</g><g><circle class="icd" cx="96" cy="51.08" r="9"/><circle class="ic" cx="96" cy="50" r="9"/><circle class="icds" cx="96" cy="50" r="5.8" style="stroke-width:1.5"/></g><path class="ims" stroke-dasharray="2 6" d="M100 64 Q118 76 132 64"/>
+</svg>
