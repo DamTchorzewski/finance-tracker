@@ -1,0 +1,125 @@
+import type { Category } from "./types.ts";
+
+type Seed = Pick<Category, "key" | "kind" | "icon" | "colour"> & { pl: string; en: string };
+
+/** The same default categories as the API (finance-tracker-api src/ledger/seed.ts); the demo starts with them. */
+export const DEFAULT_CATEGORIES: Seed[] = [
+  {
+    key: "groceries",
+    kind: "expense",
+    icon: "shopping-basket",
+    colour: "sage",
+    pl: "Zakupy spożywcze",
+    en: "Groceries",
+  },
+  {
+    key: "housing",
+    kind: "expense",
+    icon: "house",
+    colour: "indigo",
+    pl: "Mieszkanie i rachunki",
+    en: "Housing and bills",
+  },
+  {
+    key: "transport",
+    kind: "expense",
+    icon: "tram-front",
+    colour: "sky",
+    pl: "Transport",
+    en: "Transport",
+  },
+  { key: "car", kind: "expense", icon: "car", colour: "slate", pl: "Samochód", en: "Car" },
+  {
+    key: "eating-out",
+    kind: "expense",
+    icon: "utensils",
+    colour: "coral",
+    pl: "Jedzenie na mieście",
+    en: "Eating out",
+  },
+  {
+    key: "health",
+    kind: "expense",
+    icon: "heart-pulse",
+    colour: "rose",
+    pl: "Zdrowie i uroda",
+    en: "Health and care",
+  },
+  { key: "kids", kind: "expense", icon: "baby", colour: "amber", pl: "Dzieci", en: "Kids" },
+  {
+    key: "household",
+    kind: "expense",
+    icon: "spray-can",
+    colour: "sand",
+    pl: "Dom",
+    en: "Household",
+  },
+  {
+    key: "education",
+    kind: "expense",
+    icon: "graduation-cap",
+    colour: "violet",
+    pl: "Edukacja",
+    en: "Education",
+  },
+  {
+    key: "leisure",
+    kind: "expense",
+    icon: "tent-tree",
+    colour: "teal",
+    pl: "Wypoczynek",
+    en: "Leisure",
+  },
+  {
+    key: "entertainment",
+    kind: "expense",
+    icon: "clapperboard",
+    colour: "plum",
+    pl: "Rozrywka",
+    en: "Entertainment",
+  },
+  {
+    key: "subscriptions",
+    kind: "expense",
+    icon: "repeat",
+    colour: "lime",
+    pl: "Subskrypcje",
+    en: "Subscriptions",
+  },
+  { key: "gifts", kind: "expense", icon: "gift", colour: "rose", pl: "Prezenty", en: "Gifts" },
+  {
+    key: "other",
+    kind: "expense",
+    icon: "circle-ellipsis",
+    colour: "slate",
+    pl: "Inne wydatki",
+    en: "Other expenses",
+  },
+  {
+    key: "salary",
+    kind: "income",
+    icon: "briefcase-business",
+    colour: "teal",
+    pl: "Wynagrodzenie",
+    en: "Salary",
+  },
+  {
+    key: "freelance",
+    kind: "income",
+    icon: "laptop",
+    colour: "sky",
+    pl: "Zlecenia",
+    en: "Freelance",
+  },
+  {
+    key: "other-income",
+    kind: "income",
+    icon: "coins",
+    colour: "amber",
+    pl: "Inne przychody",
+    en: "Other income",
+  },
+];
+
+/** Mid rates the demo freezes its foreign transactions at (PLN per unit), so it works offline. */
+export const DEMO_RATES: Record<string, number> = { EUR: 4.27, USD: 3.95, GBP: 5.05, CHF: 4.55 };

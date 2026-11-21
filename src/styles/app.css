@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope/wght.css";
+
+/*
+ * Design tokens. Three layers: the primitives are OKLCH values below, the semantic names (`--color-*`) are what the
+ * components use, and the accent comes from one hue the user picks (`--accent-h`, set on <html> by the app).
+ * Every text pair is at least 4.5:1 in both themes; checked in src/lib/contrast.test.ts.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-elevated: var(--elevated);
+  --color-border: var(--border);
+  --color-foreground: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-foreground: var(--accent-fg);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-warning: var(--warning);
+  --color-ring: var(--ring);
+
+  --radius-card: 1.25rem;
+  --radius-sheet: 1.75rem;
+
+  --shadow-card:
+    0 1px 2px oklch(0.2 0.02 var(--accent-h) / 6%), 0 8px 24px oklch(0.2 0.02 var(--accent-h) / 6%);
+  --shadow-float: 0 12px 40px oklch(0.15 0.03 var(--accent-h) / 18%);
+
+  --ease-out-soft: cubic-bezier(0.22, 0.85, 0.3, 1);
+
+  --animate-in-fade: fade-in 180ms ease-out both;
+  --animate-in-sheet: sheet-in 320ms var(--ease-out-soft) both;
+  --animate-rise: rise 420ms var(--ease-out-soft) both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+}
+
+:root {
+  --accent-h: 160;
+  color-scheme: light;
+
+  --bg: oklch(0.975 0.006 var(--accent-h));
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.955 0.01 var(--accent-h));
+  --elevated: oklch(1 0 0 / 82%);
+  --border: oklch(0.9 0.01 var(--accent-h));
+  --fg: oklch(0.21 0.02 var(--accent-h));
+  --muted: oklch(0.47 0.02 var(--accent-h));
+  --accent: oklch(0.5 0.12 var(--accent-h));
+  --accent-soft: oklch(0.94 0.04 var(--accent-h));
+  --accent-fg: oklch(0.99 0.01 var(--accent-h));
+  --positive: oklch(0.5 0.13 155);
+  --negative: oklch(0.52 0.17 25);
+  --warning: oklch(0.55 0.13 70);
+  --ring: oklch(0.5 0.14 var(--accent-h));
+
+  /* category palette: hue and lightness apart for colour-blind users (src/lib/palette.ts) */
+  --cat-sage: oklch(0.62 0.08 150);
+  --cat-teal: oklch(0.6 0.1 190);
+  --cat-sky: oklch(0.64 0.11 235);
+  --cat-indigo: oklch(0.5 0.14 275);
+  --cat-violet: oklch(0.58 0.15 300);
+  --cat-plum: oklch(0.45 0.12 330);
+  --cat-rose: oklch(0.64 0.15 10);
+  --cat-coral: oklch(0.7 0.14 40);
+  --cat-amber: oklch(0.78 0.14 80);
+  --cat-lime: oklch(0.8 0.15 125);
+  --cat-sand: oklch(0.74 0.05 75);
+  --cat-slate: oklch(0.55 0.02 250);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: oklch(0.16 0.012 var(--accent-h));
+  --surface: oklch(0.205 0.014 var(--accent-h));
+  --surface-2: oklch(0.25 0.016 var(--accent-h));
+  --elevated: oklch(0.23 0.016 var(--accent-h) / 82%);
+  --border: oklch(0.32 0.016 var(--accent-h));
+  --fg: oklch(0.96 0.008 var(--accent-h));
+  --muted: oklch(0.74 0.015 var(--accent-h));
+  --accent: oklch(0.8 0.12 var(--accent-h));
+  --accent-soft: oklch(0.3 0.05 var(--accent-h));
+  --accent-fg: oklch(0.18 0.03 var(--accent-h));
+  --positive: oklch(0.8 0.13 155);
+  --negative: oklch(0.76 0.13 25);
+  --warning: oklch(0.82 0.12 80);
+  --ring: oklch(0.82 0.12 var(--accent-h));
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    min-height: 100dvh;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+  }
+}
+
+@layer utilities {
+  /* amounts line up in columns and do not jump while they count */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* frosted glass for the dock, the top bar and the sheets; solid where transparency is unwanted */
+  .glass {
+    background: var(--elevated);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  }
+
+  /* privacy mode: every amount is blurred until the mode is off */
+  [data-privacy="on"] .amount {
+    filter: blur(0.45em);
+    transition: filter 150ms;
+  }
+
+  [data-privacy="on"] .amount:hover,
+  [data-privacy="on"] .amount:focus-visible {
+    filter: none;
+  }
+
+  /* a row that scrolls sideways on a phone without a visible bar */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .glass {
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
