@@ -27,6 +27,7 @@ import {
   totals,
 } from "@/lib/stats.ts";
 import { PeriodSwitch, TransactionRow, useBase, useCategoryMap } from "../shared.tsx";
+import { PaletteTip } from "./palette-tip.tsx";
 
 const Charts = {
   Cashflow: lazy(() => import("./charts.tsx").then((m) => ({ default: m.CashflowChart }))),
@@ -386,6 +387,7 @@ export default function DashboardPage() {
           onChange={(next) => void navigate({ search: (old) => ({ ...old, period: next }) })}
         />
       </div>
+      <PaletteTip />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {profile.widgets.map((key) => widgets[key])}
       </div>
