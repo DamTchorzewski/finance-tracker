@@ -10,6 +10,7 @@ import {
   Minus,
   Moon,
   Plus,
+  Shapes,
   Settings,
   Sparkles,
   Target,
@@ -132,6 +133,10 @@ export default function CommandPalette({
                 >
                   <ArrowLeftRight />
                   <span className="text-foreground">{t.palette.newTransfer}</span>
+                </Command.Item>
+                <Command.Item className={item} onSelect={() => run(() => composer.openCategory())}>
+                  <Shapes />
+                  <span className="text-foreground">{t.palette.newCategory}</span>
                 </Command.Item>
                 {profile && (
                   <>

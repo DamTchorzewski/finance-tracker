@@ -1,5 +1,5 @@
-import { Trash2 } from "lucide-react";
-import { useRef, useState, type FormEvent } from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { lazy, Suspense, useRef, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import type { Draft } from "@/app/composer.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -12,6 +12,8 @@ import { cn } from "@/lib/cn.ts";
 import { addDays, today } from "@/lib/dates.ts";
 import { colourVar, iconFor } from "@/lib/icons.ts";
 import { amountInput, parseAmount } from "@/lib/money.ts";
+
+const CategorySheet = lazy(() => import("../categories/category-sheet.tsx"));
 
 export default function TransactionSheet({
   open,
@@ -43,6 +45,7 @@ export default function TransactionSheet({
   const [payee, setPayee] = useState(edit?.payee ?? "");
   const [tags, setTags] = useState(edit?.tags.join(", ") ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [newCategory, setNewCategory] = useState(0);
 
   // the first open account is the default once the accounts are known
   const accountId = chosenAccountId || accounts[0]?.id || "";
@@ -289,6 +292,16 @@ export default function TransactionSheet({
                   </button>
                 );
               })}
+              <button
+                type="button"
+                onClick={() => setNewCategory((n) => n + 1)}
+                className="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-2xl border border-dashed border-border px-1.5 py-2 text-center text-xs font-semibold text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
+              >
+                <span className="grid size-8 place-items-center rounded-xl bg-surface-2">
+                  <Plus aria-hidden="true" className="size-4" />
+                </span>
+                {t.categories.new}
+              </button>
             </div>
           </fieldset>
         )}
@@ -348,6 +361,20 @@ export default function TransactionSheet({
           </Field>
         </div>
       </form>
+      {newCategory > 0 && (
+        <Suspense fallback={null}>
+          <CategorySheet
+            key={newCategory}
+            open
+            defaultKind={kind === "income" ? "income" : "expense"}
+            onOpenChange={(open) => !open && setNewCategory(0)}
+            onCreated={(created) => {
+              setKind(created.kind);
+              setCategoryId(created.id);
+            }}
+          />
+        </Suspense>
+      )}
     </Sheet>
   );
 }
