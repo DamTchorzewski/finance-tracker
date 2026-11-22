@@ -2,6 +2,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { lazy, Suspense, useRef, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import type { Draft } from "@/app/composer.tsx";
+import { SuccessCheck } from "@/components/brand/motion.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Field, Input, Segmented, Select } from "@/components/ui/field.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
@@ -105,7 +106,7 @@ export default function TransactionSheet({
     try {
       if (edit) await update.mutateAsync({ id: edit.id, patch: input });
       else await create.mutateAsync(input);
-      toast.success(t.tx.saved);
+      toast.success(t.tx.saved, { icon: <SuccessCheck /> });
       onOpenChange(false);
     } catch (err) {
       toast.error(err instanceof DataError ? err.message : t.somethingWrong);

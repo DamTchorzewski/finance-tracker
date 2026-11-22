@@ -1,15 +1,9 @@
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import {
-  ArrowDownRight,
-  ArrowRight,
-  ArrowUpRight,
-  Inbox,
-  PiggyBank,
-  Plus,
-  Target,
-} from "lucide-react";
+import { ArrowDownRight, ArrowRight, ArrowUpRight, Inbox, Plus } from "lucide-react";
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { useComposer } from "@/app/composer.tsx";
+import onboardingBudgets from "@/assets/illustrations/onboarding-budgets.svg?raw";
+import onboardingGoals from "@/assets/illustrations/onboarding-goals.svg?raw";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button, buttonStyles } from "@/components/ui/button.tsx";
 import { Card, CardHeader, EmptyState, Skeleton } from "@/components/ui/card.tsx";
@@ -273,7 +267,7 @@ export default function DashboardPage() {
           }
         />
         {progress.length === 0 ? (
-          <EmptyState icon={<Target />} title={t.budgets.empty} />
+          <EmptyState illustration={onboardingBudgets} compact title={t.budgets.empty} />
         ) : (
           <ul className="space-y-4">
             {progress.slice(0, 4).map((p) => {
@@ -398,7 +392,7 @@ export default function DashboardPage() {
           }
         />
         {goals.length === 0 ? (
-          <EmptyState icon={<PiggyBank />} title={t.goals.empty} />
+          <EmptyState illustration={onboardingGoals} compact title={t.goals.empty} />
         ) : (
           <ul className="space-y-3">
             {goals.slice(0, 3).map((goal) => {

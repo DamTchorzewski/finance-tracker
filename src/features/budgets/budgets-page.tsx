@@ -1,5 +1,8 @@
 import { AlertTriangle, CircleCheck, Plus, Trash2 } from "lucide-react";
 import emptyBudgets from "@/assets/illustrations/empty-budgets.svg?raw";
+import allCaughtUp from "@/assets/illustrations/all-caught-up.svg?raw";
+import { Illustration } from "@/components/brand/illustration.tsx";
+import { SuccessCheck } from "@/components/brand/motion.tsx";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { Amount } from "@/components/ui/amount.tsx";
@@ -49,7 +52,7 @@ function BudgetSheet({
       if (budget) await update.mutateAsync({ id: budget.id, patch: { limitMinor, rollover } });
       else await create.mutateAsync({ categoryId, limitMinor, rollover, alertAt: [0.8, 1] });
       onOpenChange(false);
-      toast.success(t.settings.saved);
+      toast.success(t.settings.saved, { icon: <SuccessCheck /> });
     } catch (err) {
       toast.error(
         err instanceof DataError && err.status === 409 ? t.budgets.exists : t.somethingWrong,
@@ -178,84 +181,95 @@ export default function BudgetsPage() {
           />
         </Card>
       ) : (
-        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {progress.map((p) => {
-            const category = categories.get(p.budget.categoryId);
-            const left = p.limit - p.spent;
-            return (
-              <li key={p.budget.id}>
-                <Card className="flex flex-col gap-4">
-                  <div className="flex items-center gap-3">
-                    <CategoryBadge category={category} />
-                    <div className="min-w-0 flex-1">
-                      <h2 className="truncate font-bold">{category?.name}</h2>
-                      <p className="text-xs text-muted">
-                        {fill(t.budgets.spent, {
-                          spent: formatMoney(p.spent, p.budget.currency, locale),
-                          limit: formatMoney(p.limit, p.budget.currency, locale),
-                        })}
-                      </p>
+        <>
+          {progress.every((p) => p.state !== "over" && p.state !== "warning") && (
+            <Card className="mb-4 flex items-center gap-4">
+              <Illustration svg={allCaughtUp} className="w-24 shrink-0 sm:w-32" />
+              <div>
+                <p className="font-bold">{t.budgets.allFine}</p>
+                <p className="text-sm text-muted">{t.budgets.allFineHint}</p>
+              </div>
+            </Card>
+          )}
+          <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {progress.map((p) => {
+              const category = categories.get(p.budget.categoryId);
+              const left = p.limit - p.spent;
+              return (
+                <li key={p.budget.id}>
+                  <Card className="flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <CategoryBadge category={category} />
+                      <div className="min-w-0 flex-1">
+                        <h2 className="truncate font-bold">{category?.name}</h2>
+                        <p className="text-xs text-muted">
+                          {fill(t.budgets.spent, {
+                            spent: formatMoney(p.spent, p.budget.currency, locale),
+                            limit: formatMoney(p.limit, p.budget.currency, locale),
+                          })}
+                        </p>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => open(p.budget)}>
+                        {t.edit}
+                      </Button>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => open(p.budget)}>
-                      {t.edit}
-                    </Button>
-                  </div>
-                  <div
-                    role="meter"
-                    aria-label={category?.name}
-                    aria-valuemin={0}
-                    aria-valuemax={p.limit}
-                    aria-valuenow={Math.min(p.spent, p.limit)}
-                    aria-valuetext={percent(p.ratio)}
-                    className="h-3 overflow-hidden rounded-full bg-surface-2"
-                  >
                     <div
+                      role="meter"
+                      aria-label={category?.name}
+                      aria-valuemin={0}
+                      aria-valuemax={p.limit}
+                      aria-valuenow={Math.min(p.spent, p.limit)}
+                      aria-valuetext={percent(p.ratio)}
+                      className="h-3 overflow-hidden rounded-full bg-surface-2"
+                    >
+                      <div
+                        className={cn(
+                          "h-full rounded-full transition-[width] duration-700 ease-out",
+                          p.state === "over"
+                            ? "bg-negative"
+                            : p.state === "warning"
+                              ? "bg-warning"
+                              : "bg-accent",
+                        )}
+                        style={{ width: `${Math.min(100, p.ratio * 100)}%` }}
+                      />
+                    </div>
+                    <p
                       className={cn(
-                        "h-full rounded-full transition-[width] duration-700 ease-out",
+                        "flex items-center gap-1.5 text-sm font-semibold",
                         p.state === "over"
-                          ? "bg-negative"
+                          ? "text-negative"
                           : p.state === "warning"
-                            ? "bg-warning"
-                            : "bg-accent",
+                            ? "text-warning"
+                            : "text-positive",
                       )}
-                      style={{ width: `${Math.min(100, p.ratio * 100)}%` }}
-                    />
-                  </div>
-                  <p
-                    className={cn(
-                      "flex items-center gap-1.5 text-sm font-semibold",
-                      p.state === "over"
-                        ? "text-negative"
-                        : p.state === "warning"
-                          ? "text-warning"
-                          : "text-positive",
-                    )}
-                  >
-                    {p.state === "ok" ? (
-                      <CircleCheck aria-hidden="true" className="size-4" />
-                    ) : (
-                      <AlertTriangle aria-hidden="true" className="size-4" />
-                    )}
-                    {left >= 0 ? (
-                      <span>
-                        {fillNode(t.budgets.left, {
-                          amount: <Amount minor={left} currency={p.budget.currency} />,
-                        })}{" "}
-                        · {percent(p.ratio)}
-                      </span>
-                    ) : (
-                      <span>
-                        {fillNode(t.budgets.over, {
-                          amount: <Amount minor={-left} currency={p.budget.currency} />,
-                        })}
-                      </span>
-                    )}
-                  </p>
-                </Card>
-              </li>
-            );
-          })}
-        </ul>
+                    >
+                      {p.state === "ok" ? (
+                        <CircleCheck aria-hidden="true" className="size-4" />
+                      ) : (
+                        <AlertTriangle aria-hidden="true" className="size-4" />
+                      )}
+                      {left >= 0 ? (
+                        <span>
+                          {fillNode(t.budgets.left, {
+                            amount: <Amount minor={left} currency={p.budget.currency} />,
+                          })}{" "}
+                          · {percent(p.ratio)}
+                        </span>
+                      ) : (
+                        <span>
+                          {fillNode(t.budgets.over, {
+                            amount: <Amount minor={-left} currency={p.budget.currency} />,
+                          })}
+                        </span>
+                      )}
+                    </p>
+                  </Card>
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
       {sheet.key > 0 && (
         <BudgetSheet

@@ -48,12 +48,15 @@ export function Skeleton({ className }: { className?: string }) {
 export function EmptyState({
   icon,
   illustration,
+  compact,
   title,
   hint,
   action,
 }: {
   icon?: ReactNode;
   illustration?: string;
+  /** a smaller illustration, for a dashboard widget */
+  compact?: boolean;
   title: string;
   hint?: string;
   action?: ReactNode;
@@ -61,7 +64,7 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center gap-3 px-4 py-10 text-center">
       {illustration ? (
-        <Illustration svg={illustration} className="w-48" />
+        <Illustration svg={illustration} className={compact ? "w-36" : "w-48"} />
       ) : (
         <div className="grid size-14 place-items-center rounded-2xl bg-accent-soft text-accent [&_svg]:size-7">
           {icon}

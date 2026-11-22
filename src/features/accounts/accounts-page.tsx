@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import onboardingAccounts from "@/assets/illustrations/onboarding-accounts.svg?raw";
 import { toast } from "sonner";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -274,7 +275,7 @@ export default function AccountsPage() {
       ) : accounts.length === 0 ? (
         <Card>
           <EmptyState
-            icon={<Landmark />}
+            illustration={onboardingAccounts}
             title={t.accounts.empty}
             action={<Button onClick={() => open()}>{t.accounts.new}</Button>}
           />

@@ -1,6 +1,8 @@
 import { Trash2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
+import { GoalJar } from "@/components/brand/goal-jar.tsx";
+import { SuccessCheck } from "@/components/brand/motion.tsx";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Field, Input, Segmented, Select } from "@/components/ui/field.tsx";
@@ -245,6 +247,12 @@ export function ContributeSheet({
   const [date, setDate] = useState(today());
   const [note, setNote] = useState("");
   const [error, setError] = useState<string>();
+  // the jar shows where the goal will be after this amount (a coin drops in as it grows)
+  const typed = parseAmount(amount, goal.currency) ?? 0;
+  const jarLevel =
+    goal.targetMinor > 0
+      ? (goal.savedMinor + (direction === "in" ? typed : -typed)) / goal.targetMinor
+      : 0;
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -260,7 +268,7 @@ export function ContributeSheet({
         goal.savedMinor < goal.targetMinor &&
         goal.savedMinor + minor >= goal.targetMinor;
       if (reached) toast.success(`${t.goals.reached} ${goal.name}`, { icon: "🎉" });
-      else toast.success(t.goals.saved);
+      else toast.success(t.goals.saved, { icon: <SuccessCheck /> });
       onOpenChange(false);
     } catch (err) {
       toast.error(err instanceof DataError ? err.message : t.somethingWrong);
@@ -295,6 +303,11 @@ export function ContributeSheet({
         noValidate
         className="flex flex-col gap-5 pt-1"
       >
+        <GoalJar
+          level={jarLevel}
+          label={`${goal.name}: ${Math.round(jarLevel * 100)}%`}
+          className="mx-auto h-36 w-auto"
+        />
         <Segmented
           label={t.goals.direction}
           value={direction}

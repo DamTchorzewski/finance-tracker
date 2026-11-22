@@ -163,16 +163,21 @@ text inside the pictures.
   ```
 
 - They are decorative (`aria-hidden`): the heading and the text next to them say what happened and what to do.
+- In the app: the sign-in hero, the empty states (`EmptyState` takes `illustration`), the onboarding pictures in the
+  empty accounts page and the empty budget and goal widgets, the 404, the route error and offline screen
+  (`src/app/router.tsx`) and the all-caught-up card on the budgets page. The goal cards keep their progress ring; the
+  jar fills in the put-in sheet as the amount is typed, the burst plays over a card when its goal is reached, and the
+  check is the icon of the "saved" toasts (`src/components/brand/motion.tsx`).
 - The hero is the largest picture on the sign-in screen; inline it (no request) or use the fixed copy with
   `fetchpriority="high"`, never lazy.
 
 ## Motion
 
-| Asset                             | File                                  | Size         | Use                                                                      |
-| --------------------------------- | ------------------------------------- | ------------ | ------------------------------------------------------------------------ |
-| Goal jar (fill level is an input) | `src/components/brand/goal-jar.tsx`   | ~5 kB source | every savings goal: `<GoalJar level={0.55} label="Wakacje: 55% celu" />` |
-| Success check                     | `src/assets/motion/success-check.svg` | 1.1 kB       | after saving a transaction, an import, a budget                          |
-| Goal-reached burst                | `src/assets/motion/goal-burst.svg`    | 3.6 kB       | over the jar or the goal card when a goal hits 100 %                     |
+| Asset                             | File                                  | Size         | Use                                                                         |
+| --------------------------------- | ------------------------------------- | ------------ | --------------------------------------------------------------------------- |
+| Goal jar (fill level is an input) | `src/components/brand/goal-jar.tsx`   | ~5 kB source | the put-in sheet of a goal: `<GoalJar level={0.55} label="Wakacje: 55%" />` |
+| Success check                     | `src/assets/motion/success-check.svg` | 1.1 kB       | after saving a transaction, an import, a budget                             |
+| Goal-reached burst                | `src/assets/motion/goal-burst.svg`    | 3.6 kB       | over the jar or the goal card when a goal hits 100 %                        |
 
 - **Goal jar**: an SVG component with CSS motion, no library. Gold coins fill the jar to `level` (0 to 1) with a 700 ms
   ease-out; each time the level goes up a coin drops through the lid (900 ms); at 1 the lid pops and three sparkles

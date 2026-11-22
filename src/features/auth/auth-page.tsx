@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { AuthProblem, applyEmailLink, signIn, signInWithGoogle, signUp } from "@/auth/firebase.ts";
 import { isFirebaseConfigured, useSession } from "@/auth/session.tsx";
+import signinHero from "@/assets/illustrations/signin-hero.svg?raw";
+import { Illustration } from "@/components/brand/illustration.tsx";
 import { PiggoLockup } from "@/components/brand/logo.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Field, Input } from "@/components/ui/field.tsx";
@@ -41,36 +43,6 @@ const MESSAGES: Record<string, { pl: string; en: string }> = {
     en: "Sign-in is not configured",
   },
 };
-
-function Preview() {
-  // a calm picture of what the app does, drawn with the design tokens (the brand illustration replaces it later)
-  const bars = [38, 62, 45, 80, 56, 70, 92];
-  return (
-    <div aria-hidden="true" className="relative mx-auto w-full max-w-sm">
-      <div className="absolute -inset-10 -z-10 rounded-full bg-accent/25 blur-3xl" />
-      <div className="rounded-sheet border border-border bg-surface p-5 shadow-float">
-        <p className="text-xs font-semibold text-muted">Saldo</p>
-        <p className="tabular mt-1 text-3xl font-extrabold tracking-tight">24 860,40 zł</p>
-        <div className="mt-5 flex h-24 items-end gap-2">
-          {bars.map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-t-lg bg-accent/80"
-              style={{ height: `${h}%`, opacity: 0.45 + i * 0.08 }}
-            />
-          ))}
-        </div>
-        <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs">
-          {["EUR 4,4559", "USD 4,0613", "GBP 5,0412"].map((rate) => (
-            <span key={rate} className="tabular rounded-xl bg-surface-2 py-2 font-semibold">
-              {rate}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function AuthPage({ mode }: { mode: "sign-in" | "sign-up" }) {
   const { t, locale, fill } = useI18n();
@@ -137,7 +109,7 @@ export default function AuthPage({ mode }: { mode: "sign-in" | "sign-up" }) {
           <PiggoLockup />
           <span className="sr-only">{t.appName}</span>
         </div>
-        <Preview />
+        <Illustration svg={signinHero} className="mx-auto w-full max-w-md" />
         <p className="max-w-md text-sm text-muted">{t.auth.lead}</p>
       </section>
 

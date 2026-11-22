@@ -193,6 +193,8 @@ const pl = {
     month: "Miesiąc od {from} do {to}",
     rollover: "Przenoś niewykorzystaną kwotę na kolejny miesiąc",
     exists: "Ta kategoria ma już budżet",
+    allFine: "Wszystkie budżety w normie",
+    allFineHint: "Żaden nie zbliża się do limitu w tym miesiącu.",
   },
 
   currencies: {
@@ -359,6 +361,14 @@ const pl = {
       "Dotknij lupy u góry i wpisz „kawa 14 zł wczoraj”: transakcja doda się z kategorią i datą.",
     tryIt: "Wypróbuj",
     gotIt: "Rozumiem",
+  },
+
+  errorPage: {
+    title: "Coś poszło nie tak",
+    lead: "Spróbuj jeszcze raz. Jeśli to się powtarza, odśwież stronę.",
+    retry: "Spróbuj ponownie",
+    offlineTitle: "Brak połączenia",
+    offlineLead: "Sprawdź internet i spróbuj ponownie.",
   },
 
   notFound: {
@@ -555,6 +565,8 @@ const en: Messages = {
     month: "Month from {from} to {to}",
     rollover: "Carry what is left over to the next month",
     exists: "This category already has a budget",
+    allFine: "Every budget is on track",
+    allFineHint: "None is close to its limit this month.",
   },
 
   currencies: {
@@ -720,6 +732,14 @@ const en: Messages = {
       "Tap the magnifier at the top and type “coffee 14 yesterday”: the transaction is added with a category and a date.",
     tryIt: "Try it",
     gotIt: "Got it",
+  },
+
+  errorPage: {
+    title: "Something went wrong",
+    lead: "Try again. If it keeps happening, reload the page.",
+    retry: "Try again",
+    offlineTitle: "You are offline",
+    offlineLead: "Check your connection and try again.",
   },
 
   notFound: {

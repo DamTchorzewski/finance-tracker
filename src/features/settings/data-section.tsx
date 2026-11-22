@@ -3,6 +3,7 @@ import { Download, FileText, History, Upload } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useSession } from "@/auth/session.tsx";
+import { SuccessCheck } from "@/components/brand/motion.tsx";
 import { Button, buttonStyles } from "@/components/ui/button.tsx";
 import { Card, CardHeader } from "@/components/ui/card.tsx";
 import { Field, Select } from "@/components/ui/field.tsx";
@@ -118,7 +119,7 @@ function CsvImport({
         });
         done++;
       }
-      toast.success(fill(t.csv.done, { n: done }));
+      toast.success(fill(t.csv.done, { n: done }), { icon: <SuccessCheck /> });
       onOpenChange(false);
     } catch (err) {
       toast.error(err instanceof DataError ? err.message : t.somethingWrong);

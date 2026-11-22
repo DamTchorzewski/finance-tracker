@@ -7,9 +7,13 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
+import errorArt from "@/assets/illustrations/error.svg?raw";
+import notFoundArt from "@/assets/illustrations/not-found.svg?raw";
+import offlineArt from "@/assets/illustrations/offline.svg?raw";
 import { useSession } from "@/auth/session.tsx";
+import { Illustration } from "@/components/brand/illustration.tsx";
 import { buttonStyles } from "@/components/ui/button.tsx";
-import type { TxKind } from "@/data/types.ts";
+import { DataError, type TxKind } from "@/data/types.ts";
 import { useI18n } from "@/i18n/i18n.tsx";
 import { PERIODS, type PeriodKey } from "@/lib/dates.ts";
 import { AppShell, FullPageSpinner } from "./shell.tsx";
@@ -36,12 +40,36 @@ function NotFound() {
   return (
     <main id="main" className="grid min-h-[70dvh] place-items-center px-6 text-center">
       <div className="flex flex-col items-center gap-3">
-        <p className="text-6xl font-extrabold tracking-tighter text-accent">404</p>
+        <Illustration svg={notFoundArt} className="w-60" />
         <h1 className="text-2xl font-bold">{t.notFound.title}</h1>
         <p className="text-muted">{t.notFound.lead}</p>
         <Link to="/" className={buttonStyles({ className: "mt-2" })}>
           {t.notFound.home}
         </Link>
+      </div>
+    </main>
+  );
+}
+
+/** A route that failed: offline (the API could not be reached) or any other error, with a retry. */
+function RouteError({ error, reset }: { error: unknown; reset: () => void }) {
+  const { t } = useI18n();
+  const offline =
+    (error instanceof DataError && error.code === "offline") ||
+    (typeof navigator !== "undefined" && !navigator.onLine);
+  return (
+    <main id="main" className="grid min-h-[70dvh] place-items-center px-6 text-center">
+      <div className="flex flex-col items-center gap-3">
+        <Illustration svg={offline ? offlineArt : errorArt} className="w-60" />
+        <h1 className="text-2xl font-bold">
+          {offline ? t.errorPage.offlineTitle : t.errorPage.title}
+        </h1>
+        <p className="max-w-sm text-muted">
+          {offline ? t.errorPage.offlineLead : t.errorPage.lead}
+        </p>
+        <button type="button" onClick={reset} className={buttonStyles({ className: "mt-2" })}>
+          {t.errorPage.retry}
+        </button>
       </div>
     </main>
   );
@@ -54,6 +82,7 @@ const rootRoute = createRootRoute({
     </Suspense>
   ),
   notFoundComponent: NotFound,
+  errorComponent: RouteError,
 });
 
 /** The sign-in pages: a signed-in user (or the demo) goes straight to the dashboard. */

@@ -1,6 +1,7 @@
 import { CalendarClock, Link2, Minus, PartyPopper, Plus } from "lucide-react";
 import emptyGoals from "@/assets/illustrations/empty-goals.svg?raw";
 import { createElement, useState } from "react";
+import { GoalBurst } from "@/components/brand/motion.tsx";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, EmptyState, Skeleton } from "@/components/ui/card.tsx";
@@ -35,6 +36,14 @@ function GoalCard({
   const account = useAccounts().data?.find((a) => a.id === goal.accountId);
   const pace = goalPace(goal, contributions);
   const colour = colourVar(goal.colour);
+  // the burst plays when the goal turns reached while the page is open, not when it was reached before
+  const reached = pace.state === "done";
+  const [wasReached, setWasReached] = useState(reached);
+  const [bursts, setBursts] = useState(0);
+  if (reached !== wasReached) {
+    setWasReached(reached);
+    if (reached) setBursts((count) => count + 1);
+  }
 
   const status = {
     done: { text: t.goals.done, tone: "text-positive" },
@@ -48,10 +57,11 @@ function GoalCard({
     <li>
       <Card
         className={cn(
-          "flex h-full flex-col gap-4",
+          "relative flex h-full flex-col gap-4",
           pace.state === "done" && "ring-2 ring-positive/40",
         )}
       >
+        {bursts > 0 && <GoalBurst key={bursts} />}
         <div className="flex items-start gap-4">
           <ProgressRing ratio={pace.ratio} colour={colour}>
             <span>
