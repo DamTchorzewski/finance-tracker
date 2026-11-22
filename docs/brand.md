@@ -88,7 +88,7 @@ accent gets its own chroma, because the brand berry is more saturated than the o
   hues leave the sRGB gamut and drop below 4.5:1 (hue 200: 4.36:1 on `--surface-2`), so the extra chroma is for the
   brand hue only.
 - The accent choices in `src/features/settings/settings-page.tsx` (`HUES`) start with 328 and drop 330 (too close).
-- The default profile `accentHue` (160 today in `src/data/demo-source.ts` and in the API's profile defaults) becomes 328.
+- The default profile `accentHue` is 328 (`src/data/demo-source.ts`, `src/features/shared.tsx` and the API's profile defaults).
 - The neutrals already take a tint from `--accent-h`, so `paper`, `night`, `ink` and `snow` above are what the current
   `--bg`, `--fg` formulas give at hue 328.
 
@@ -209,7 +209,7 @@ could not use, so the jar ships as the component above. If a Rive file is wanted
 | `public/icons/icon-192.png`, `-512.png`          | 192, 512 | rounded berry tile on transparency                       | manifest, `purpose: "any"`                         |
 | `public/icons/icon-maskable-192.png`, `-512.png` | 192, 512 | full bleed, pig inside the 80 % safe circle              | manifest, `purpose: "maskable"`                    |
 
-The old placeholder `public/icon.svg` can go once `index.html` and the manifest point at these files. Manifest values:
+The old placeholder `public/icon.svg` was removed when `index.html` and the manifest moved to these files. Manifest values:
 `name` and `short_name` "Piggo", `theme_color` `#943593`, `background_color` `#f9f5f9`.
 
 ## The generator

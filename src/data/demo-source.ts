@@ -36,7 +36,7 @@ const DEFAULT_PROFILE: Profile = {
   locale: "pl",
   monthStartDay: 10,
   theme: "system",
-  accentHue: 160,
+  accentHue: 328,
   privacyMode: false,
   widgets: ["balance", "cashflow", "spending", "goals", "budgets", "recent", "rates"],
 };

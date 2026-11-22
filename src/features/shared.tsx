@@ -17,7 +17,7 @@ const FALLBACK_PROFILE: Profile = {
   locale: "pl",
   monthStartDay: 1,
   theme: "system",
-  accentHue: 160,
+  accentHue: 328,
   privacyMode: false,
   widgets: ["balance", "cashflow", "spending", "budgets", "recent", "rates"],
 };

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { AuthProblem, applyEmailLink, signIn, signInWithGoogle, signUp } from "@/auth/firebase.ts";
 import { isFirebaseConfigured, useSession } from "@/auth/session.tsx";
+import { PiggoLockup } from "@/components/brand/logo.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Field, Input } from "@/components/ui/field.tsx";
 import { useI18n } from "@/i18n/i18n.tsx";
@@ -133,8 +134,8 @@ export default function AuthPage({ mode }: { mode: "sign-in" | "sign-up" }) {
     <main id="main" className="grid min-h-dvh lg:grid-cols-[1.1fr_1fr]">
       <section className="relative hidden flex-col justify-between overflow-hidden bg-surface-2 p-10 lg:flex">
         <div className="flex items-center gap-2.5">
-          <img src="/icon.svg" alt="" width={36} height={36} className="size-9 rounded-xl" />
-          <span className="font-extrabold tracking-tight">{t.appName}</span>
+          <PiggoLockup />
+          <span className="sr-only">{t.appName}</span>
         </div>
         <Preview />
         <p className="max-w-md text-sm text-muted">{t.auth.lead}</p>
@@ -143,8 +144,8 @@ export default function AuthPage({ mode }: { mode: "sign-in" | "sign-up" }) {
       <section className="flex flex-col justify-center px-5 py-10 sm:px-10">
         <div className="mx-auto w-full max-w-sm">
           <div className="mb-8 flex items-center gap-2.5 lg:hidden">
-            <img src="/icon.svg" alt="" width={36} height={36} className="size-9 rounded-xl" />
-            <span className="font-extrabold tracking-tight">{t.appName}</span>
+            <PiggoLockup />
+            <span className="sr-only">{t.appName}</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight text-balance">
             {signUpMode ? t.auth.signUp : t.auth.title}

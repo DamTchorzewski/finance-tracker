@@ -1,6 +1,8 @@
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { FileText, Inbox, Plus, Search, SearchX } from "lucide-react";
+import { FileText, Plus, Search } from "lucide-react";
+import emptyTransactions from "@/assets/illustrations/empty-transactions.svg?raw";
+import nothingFound from "@/assets/illustrations/nothing-found.svg?raw";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useComposer } from "@/app/composer.tsx";
 import { Amount } from "@/components/ui/amount.tsx";
@@ -185,10 +187,10 @@ export default function TransactionsPage() {
           </div>
         ) : items.length === 0 ? (
           filtered ? (
-            <EmptyState icon={<SearchX />} title={t.tx.nothingFound} />
+            <EmptyState illustration={nothingFound} title={t.tx.nothingFound} />
           ) : (
             <EmptyState
-              icon={<Inbox />}
+              illustration={emptyTransactions}
               title={t.tx.empty}
               hint={t.tx.emptyHint}
               action={

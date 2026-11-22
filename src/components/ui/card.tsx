@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
+import { Illustration } from "@/components/brand/illustration.tsx";
 import { cn } from "@/lib/cn.ts";
 
 export function Card({ className, ...props }: HTMLAttributes<HTMLElement>) {
@@ -43,22 +44,29 @@ export function Skeleton({ className }: { className?: string }) {
   );
 }
 
+/** An empty list: a brand illustration on full pages (its SVG text), or a small icon tile inside a widget. */
 export function EmptyState({
   icon,
+  illustration,
   title,
   hint,
   action,
 }: {
-  icon: ReactNode;
+  icon?: ReactNode;
+  illustration?: string;
   title: string;
   hint?: string;
   action?: ReactNode;
 }) {
   return (
     <div className="flex flex-col items-center gap-3 px-4 py-10 text-center">
-      <div className="grid size-14 place-items-center rounded-2xl bg-accent-soft text-accent [&_svg]:size-7">
-        {icon}
-      </div>
+      {illustration ? (
+        <Illustration svg={illustration} className="w-48" />
+      ) : (
+        <div className="grid size-14 place-items-center rounded-2xl bg-accent-soft text-accent [&_svg]:size-7">
+          {icon}
+        </div>
+      )}
       <p className="font-semibold">{title}</p>
       {hint && <p className="max-w-xs text-sm text-muted">{hint}</p>}
       {action}

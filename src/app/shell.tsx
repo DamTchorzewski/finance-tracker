@@ -21,6 +21,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/auth/session.tsx";
+import { PiggoLockup } from "@/components/brand/logo.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
 import { resetDemo } from "@/data/demo-source.ts";
@@ -62,8 +63,7 @@ function Logo({ compact }: { compact?: boolean }) {
   const { t } = useI18n();
   return (
     <Link to="/" className="flex items-center gap-2.5 rounded-xl" aria-label={t.appName}>
-      <img src="/icon.svg" alt="" width={36} height={36} className="size-9 rounded-xl" />
-      {!compact && <span className="text-[15px] font-extrabold tracking-tight">{t.appName}</span>}
+      <PiggoLockup compact={compact} />
     </Link>
   );
 }

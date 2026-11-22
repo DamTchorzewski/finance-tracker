@@ -1,4 +1,5 @@
-import { CalendarClock, Link2, Minus, PartyPopper, PiggyBank, Plus } from "lucide-react";
+import { CalendarClock, Link2, Minus, PartyPopper, Plus } from "lucide-react";
+import emptyGoals from "@/assets/illustrations/empty-goals.svg?raw";
 import { createElement, useState } from "react";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -182,7 +183,7 @@ export default function GoalsPage() {
       ) : items.length === 0 ? (
         <Card>
           <EmptyState
-            icon={<PiggyBank />}
+            illustration={emptyGoals}
             title={t.goals.empty}
             action={<Button onClick={() => openGoal()}>{t.goals.new}</Button>}
           />

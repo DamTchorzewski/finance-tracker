@@ -4,7 +4,7 @@
 export type Plural = { one: string; few?: string; many?: string; other: string };
 
 const pl = {
-  appName: "Finance Tracker",
+  appName: "Piggo",
   skipToContent: "Przejdź do treści",
   loading: "Wczytywanie…",
   save: "Zapisz",
@@ -371,7 +371,7 @@ const pl = {
 export type Messages = typeof pl;
 
 const en: Messages = {
-  appName: "Finance Tracker",
+  appName: "Piggo",
   skipToContent: "Skip to content",
   loading: "Loading…",
   save: "Save",

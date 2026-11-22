@@ -1,4 +1,5 @@
-import { AlertTriangle, CircleCheck, Plus, Target, Trash2 } from "lucide-react";
+import { AlertTriangle, CircleCheck, Plus, Trash2 } from "lucide-react";
+import emptyBudgets from "@/assets/illustrations/empty-budgets.svg?raw";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { Amount } from "@/components/ui/amount.tsx";
@@ -171,7 +172,7 @@ export default function BudgetsPage() {
       ) : progress.length === 0 ? (
         <Card>
           <EmptyState
-            icon={<Target />}
+            illustration={emptyBudgets}
             title={t.budgets.empty}
             action={<Button onClick={() => open()}>{t.budgets.new}</Button>}
           />

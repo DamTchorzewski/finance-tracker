@@ -21,7 +21,7 @@ const ALL_WIDGETS: WidgetKey[] = [
   "recent",
   "rates",
 ];
-const HUES = [160, 200, 250, 290, 330, 20, 60, 120];
+const HUES = [328, 160, 200, 250, 290, 20, 60, 120];
 
 export default function SettingsPage() {
   const { t, fill } = useI18n();

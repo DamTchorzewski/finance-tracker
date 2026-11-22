@@ -8,17 +8,22 @@ const STORAGE_KEY = "ft-prefs";
 
 type Prefs = Pick<Profile, "theme" | "accentHue" | "privacyMode" | "locale">;
 
+/** The brand hue (328) is more saturated than the others can be and keep their contrast (docs/brand.md). */
+export const BRAND_HUE = 328;
+export const accentChroma = (hue: number) => (hue === BRAND_HUE ? "0.17" : "0.12");
+
 const dark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 export function applyPrefs(prefs: Prefs) {
   const root = document.documentElement;
   root.dataset.theme = prefs.theme === "system" ? (dark() ? "dark" : "light") : prefs.theme;
   root.style.setProperty("--accent-h", String(prefs.accentHue));
+  root.style.setProperty("--accent-c", accentChroma(prefs.accentHue));
   root.dataset.privacy = prefs.privacyMode ? "on" : "off";
   root.lang = prefs.locale;
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", root.dataset.theme === "dark" ? "#14191a" : "#f6f8f7");
+    ?.setAttribute("content", root.dataset.theme === "dark" ? "#100b10" : "#f9f5f9");
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
   } catch {
