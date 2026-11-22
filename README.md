@@ -11,7 +11,7 @@
 
 ## About
 
-**finance-tracker** is version 2 of a personal finance app: accounts in any currency, transactions, budgets and the
+**finance-tracker** (brand **Piggo**) is version 2 of a personal finance app: accounts in any currency, transactions, budgets and the
 exchange rates of the National Bank of Poland in one calm, fast web app for the phone and the computer. It is the
 successor of the team project [`personal-finance-manager`](https://github.com/DamTchorzewski/personal-finance-manager),
 from which this repository was copied with its history and then rebuilt from scratch; its API is
@@ -44,8 +44,8 @@ from which this repository was copied with its history and then rebuilt from scr
 
 > **Status:** release 1 in progress (2026-11-21): the app runs end to end in the demo; the sign-in and the live site
 > wait for the Google setup in [docs/deployment.md](docs/deployment.md). The plan is [docs/redesign-plan.md](docs/redesign-plan.md).
-> The brand (Piggo, [docs/brand.md](docs/brand.md)) is designed; the app still shows its working name and icon, and the
-> screenshots use the brand accent, a setting any user can choose. There is no live site yet, so no "Open site" button.
+> The app carries the Piggo brand ([docs/brand.md](docs/brand.md)). There is no live site yet, so no "Open site"
+> button.
 
 ## Tech stack
 
