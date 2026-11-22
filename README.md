@@ -1,3 +1,14 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/banner-dark.png">
+    <img src="docs/images/banner-light.png" alt="Piggo: a personal finance web app" width="100%">
+  </picture>
+</p>
+
+<p align="center">
+  <img src="docs/images/showcase.jpg" alt="Piggo on a desktop and on a phone: the dashboard of the demo" width="100%">
+</p>
+
 ## About
 
 **finance-tracker** is version 2 of a personal finance app: accounts in any currency, transactions, budgets and the
@@ -33,7 +44,8 @@ from which this repository was copied with its history and then rebuilt from scr
 
 > **Status:** release 1 in progress (2026-11-21): the app runs end to end in the demo; the sign-in and the live site
 > wait for the Google setup in [docs/deployment.md](docs/deployment.md). The plan is [docs/redesign-plan.md](docs/redesign-plan.md).
-> README images come with the brand (being designed).
+> The brand (Piggo, [docs/brand.md](docs/brand.md)) is designed; the app still shows its working name and icon, and the
+> screenshots use the brand accent, a setting any user can choose. There is no live site yet, so no "Open site" button.
 
 ## Tech stack
 
@@ -49,6 +61,18 @@ from which this repository was copied with its history and then rebuilt from scr
 | Hosting  | Firebase Hosting, `/api/**` rewritten to Cloud Run; PWA (Workbox)                                             |
 
 The interface is Polish and English; code, comments, commits and the README are English; `docs/` is Polish.
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/images/desktop-themes.jpg" alt="The dashboard in the light theme and the transactions in the dark theme" width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/images/mobile.jpg" alt="Four phone screens: dashboard, transactions, budgets in the dark theme and goals" width="100%">
+</p>
+
+The screenshots are the built-in demo (sample data only, no account).
 
 ## Quick start
 
@@ -116,7 +140,9 @@ Monday (`workflows.md`, level 3).
 
 - **Copied history of a team project:** the repository keeps the history of `personal-finance-manager` (team work) and
   its MIT notice, with the version 2 author added; see [docs/decisions.md](docs/decisions.md).
-- **No README images yet:** they come with the brand of version 2, which is being designed.
+- **No "Open site" button:** the app is not deployed yet (it waits for the Google setup); the frames show the local
+  preview address.
+- **No DamReboot footer, a Team section instead:** version 1 was a team project.
 
 ## Documentation
 
@@ -127,6 +153,9 @@ Monday (`workflows.md`, level 3).
 | [docs/deployment.md](docs/deployment.md)       | Firebase Hosting, the Google setup, GitHub variables, rollback       |
 | [docs/repository.md](docs/repository.md)       | GitHub description and topics, and the command that sets them        |
 | [docs/brand.md](docs/brand.md)                 | the Piggo name, logo, colours, type, illustrations, motion and icons |
+
+The README images (`docs/images/`) are made with `tools/readme-images`, profile `finance-tracker`, from the demo in a
+local `pnpm preview`; the working shots go to `.scratch/`.
 
 ## Team
 
