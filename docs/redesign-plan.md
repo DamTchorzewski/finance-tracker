@@ -229,7 +229,7 @@ Version 2 gets a new Cloud Run service (`finance-tracker-api`) and the Firebase 
 | `security.md`       | headers and CSP on Firebase Hosting, tokens verified on every request, Zod on the server, rate limit                    |
 | `testing.md`        | unit tests next to the logic, e2e against the emulators, OpenAPI from the code                                          |
 | `env.md`            | `.env.example` with names only; the Firebase web config stays public and gets restricted to the site's origin           |
-| `project-readme.md` | new README images after release 1 (`tools/readme-images`), Team section kept                                            |
+| `project-readme.md` | new README images after release 1 (`tools/readme-images`), Versions section, DamReboot footer                           |
 | `licenses.md`       | MIT; the copied history keeps the team's notice, version 2 adds `Damian Tchorzewski` as the holder of the new code      |
 
 ## Decisions (2026-11-21)

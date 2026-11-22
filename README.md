@@ -142,7 +142,6 @@ Monday (`workflows.md`, level 3).
   its MIT notice, with the version 2 author added; see [docs/decisions.md](docs/decisions.md).
 - **No "Open site" button:** the app is not deployed yet (it waits for the Google setup); the frames show the local
   preview address.
-- **No DamReboot footer, a Team section instead:** version 1 was a team project.
 
 ## Documentation
 
@@ -157,10 +156,19 @@ Monday (`workflows.md`, level 3).
 The README images (`docs/images/`) are made with `tools/readme-images`, profile `finance-tracker`, from the demo in a
 local `pnpm preview`; the working shots go to `.scratch/`.
 
-## Team
+## Versions
 
-Version 1 was made by the S7ven Survivors team (see the history and the Team section of
-[`personal-finance-manager`](https://github.com/DamTchorzewski/personal-finance-manager#team)); version 2 is by
-[Damian Tchorzewski](https://github.com/DamTchorzewski).
+| Version                    | Repository                                                                               | Made by                                                                                                            |
+| -------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 1                          | [`personal-finance-manager`](https://github.com/DamTchorzewski/personal-finance-manager) | the S7ven Survivors team (see its [Team section](https://github.com/DamTchorzewski/personal-finance-manager#team)) |
+| 2: Piggo (this repository) | `finance-tracker`                                                                        | [Damian Tchorzewski](https://github.com/DamTchorzewski)                                                            |
 
 Licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center"><a href="https://damreboot.pl"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/damreboot/company-dark.svg"><img src="docs/images/damreboot/company-light.svg" alt="damreboot.pl: company website" height="36"></picture></a><a href="https://www.linkedin.com/in/damian-tchorzewski-3b2388275/"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/damreboot/linkedin-dark.svg"><img src="docs/images/damreboot/linkedin-light.svg" alt="LinkedIn: let's connect" height="36"></picture></a><a href="mailto:damianchabracki@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/damreboot/email-dark.svg"><img src="docs/images/damreboot/email-light.svg" alt="E-mail: write to me" height="36"></picture></a></p>
+
+<p align="center">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/damreboot/engineered-dark.svg"><img src="docs/images/damreboot/engineered-light.svg" alt="" height="33" align="middle"></picture> Engineered by <b>Damian Chabracki</b> (DamReboot IT)
+</p>
