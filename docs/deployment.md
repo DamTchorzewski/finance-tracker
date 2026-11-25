@@ -12,15 +12,21 @@ krok 1 (ten sam skrypt w Cloud Shell dopuszcza oba nowe repozytoria i daje prawa
 1. **console.firebase.google.com** → projekt → **Build → Hosting → Get started** (przejdź kroki, wdrożenia robi GitHub).
    Adres aplikacji to `https://<project>.web.app`. Własna domena: Hosting → **Add custom domain** (np.
    `finanse.example.pl`), rekordy DNS z konsoli u rejestratora.
-2. **Authentication → Settings → Authorized domains → Add domain**: adres aplikacji (`<project>.web.app` i własna
-   domena, jeśli jest).
+2. **Authentication → Settings → Authorized domains**: `<project>.web.app` jest tam od początku; dodaj tylko własną
+   domenę, jeśli jest.
 3. **Project settings → General → Your apps**: ta sama aplikacja web co w wersji 1 (pięć wartości `firebaseConfig`).
    `authDomain` ustaw na adres aplikacji na Hostingu (np. `<project>.web.app`), nie `<project>.firebaseapp.com`: wtedy
    pomocnik logowania Google działa na tej samej stronie.
-4. (Zalecane) **Google Cloud → APIs & Services → Credentials → Browser key** (klucz web Firebase) → **Application
-   restrictions: Websites**: adres aplikacji, `localhost:5173`.
-5. (Opcjonalnie) **Authentication → Templates → Email address verification → Customize action URL**:
-   `https://<adres aplikacji>/login`. Link z maila potwierdza adres na stronie aplikacji.
+4. **Google Cloud → APIs & Services → Credentials → OAuth 2.0 Client IDs → Web client**: dodaj (obecne wpisy zostają)
+   _Authorized JavaScript origins_ `https://<project>.web.app` i _Authorized redirect URIs_
+   `https://<project>.web.app/__/auth/handler`. Bez tego logowanie Google kończy się błędem `redirect_uri_mismatch`.
+   Własna domena: to samo dla niej.
+5. (Zalecane) **Google Cloud → APIs & Services → Credentials → Browser key** (klucz web Firebase) → **Application
+   restrictions: Websites**: adres aplikacji, `localhost:5173` oraz `damtchorzewski.github.io` i
+   `<project>.firebaseapp.com`. Z tego samego klucza korzysta wersja 1: bez dwóch ostatnich przestanie działać.
+6. (Opcjonalnie) **Authentication → Templates → Email address verification → Customize action URL**:
+   `https://<adres aplikacji>/login`. Link z maila potwierdza adres na stronie aplikacji. Ustawienie jest
+   wspólne dla projektu: zmienia też linki w mailach wersji 1, więc zostaw je puste, dopóki wersja 1 działa.
 
 ## 2. GitHub
 
