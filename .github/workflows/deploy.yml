@@ -18,7 +18,7 @@
 #   GCP_PROJECT_ID                  the Google Cloud / Firebase project id
 #   GCP_WORKLOAD_IDENTITY_PROVIDER  projects/<number>/locations/global/workloadIdentityPools/github/providers/github-provider
 #   GCP_SERVICE_ACCOUNT             github-deployer@<project>.iam.gserviceaccount.com
-#   SITE_URL                        the address of the app, e.g. https://<project>.web.app
+#   SITE_URL                        the address of the app, https://piggo-finance.web.app
 # Standard: reops/standards/workflows.md and firebase-hosting.md (global, outside this repo)
 
 name: Build & Deploy
