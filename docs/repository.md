@@ -18,7 +18,7 @@ Nazwa marki (logo, nazwa w aplikacji) jest wybierana osobno i trafi do opisu, gd
 Personal finance tracker: React 19, TypeScript and Tailwind CSS PWA with multi-currency accounts at NBP rates, budgets, a command palette and a demo; Firebase Auth, Hosting and a Cloud Run API.
 ```
 
-**Strona (Website):** adres na Firebase Hosting po pierwszym wdrożeniu (`https://<project>.web.app` albo własna domena).
+**Strona (Website):** <https://piggo-finance.web.app>
 
 **Tagi (Topics):**
 

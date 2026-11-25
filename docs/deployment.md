@@ -2,7 +2,7 @@
 
 Aplikacja wersji 2 stoi na **Firebase Hosting** w tym samym projekcie Google co jej API i wersja 1. Hosting serwuje
 `dist/` z nagłówkami z `firebase.json` i przekazuje `/api/**` do usługi Cloud Run `finance-tracker-api` (repozytorium
-`finance-tracker-api`), więc aplikacja i API są pod jednym adresem. Wersja 1 (`personal-finance-manager` na GitHub Pages)
+`finance-tracker-api`), więc aplikacja i API są pod jednym adresem: <https://piggo-finance.web.app>. Wersja 1 (`personal-finance-manager` na GitHub Pages)
 działa dalej bez zmian. Konfiguracja kont i Workload Identity:
 [`finance-tracker-api/docs/deployment.md`](https://github.com/DamTchorzewski/finance-tracker-api/blob/develop/docs/deployment.md),
 krok 1 (ten sam skrypt w Cloud Shell dopuszcza oba nowe repozytoria i daje prawa do Hostingu).
@@ -10,16 +10,17 @@ krok 1 (ten sam skrypt w Cloud Shell dopuszcza oba nowe repozytoria i daje prawa
 ## 1. Firebase (w przeglądarce, jednorazowo)
 
 1. **console.firebase.google.com** → projekt → **Build → Hosting → Get started** (przejdź kroki, wdrożenia robi GitHub).
-   Adres aplikacji to `https://<project>.web.app`. Własna domena: Hosting → **Add custom domain** (np.
+   Potem na dole strony **Advanced → Add another site**: `piggo-finance` (bezpłatna druga witryna, adres aplikacji to
+   `https://piggo-finance.web.app`). Domyślna witryna `<project>.web.app` tylko przekierowuje na nią (`firebase.json`,
+   `hosting/old-address`). Własna, kupiona domena (opcjonalnie): **Add custom domain** (np.
    `finanse.example.pl`), rekordy DNS z konsoli u rejestratora.
-2. **Authentication → Settings → Authorized domains**: `<project>.web.app` jest tam od początku; dodaj tylko własną
-   domenę, jeśli jest.
+2. **Authentication → Settings → Authorized domains → Add domain**: `piggo-finance.web.app` (i własna domena, jeśli jest).
 3. **Project settings → General → Your apps**: ta sama aplikacja web co w wersji 1 (pięć wartości `firebaseConfig`).
-   `authDomain` ustaw na adres aplikacji na Hostingu (np. `<project>.web.app`), nie `<project>.firebaseapp.com`: wtedy
+   `authDomain` ustaw na adres aplikacji na Hostingu (`piggo-finance.web.app`), nie `<project>.firebaseapp.com`: wtedy
    pomocnik logowania Google działa na tej samej stronie.
 4. **Google Cloud → APIs & Services → Credentials → OAuth 2.0 Client IDs → Web client**: dodaj (obecne wpisy zostają)
-   _Authorized JavaScript origins_ `https://<project>.web.app` i _Authorized redirect URIs_
-   `https://<project>.web.app/__/auth/handler`. Bez tego logowanie Google kończy się błędem `redirect_uri_mismatch`.
+   _Authorized JavaScript origins_ `https://piggo-finance.web.app` i _Authorized redirect URIs_
+   `https://piggo-finance.web.app/__/auth/handler`. Bez tego logowanie Google kończy się błędem `redirect_uri_mismatch`.
    Własna domena: to samo dla niej.
 5. (Zalecane) **Google Cloud → APIs & Services → Credentials → Browser key** (klucz web Firebase) → **Application
    restrictions: Websites**: adres aplikacji, `localhost:5173` oraz `damtchorzewski.github.io` i

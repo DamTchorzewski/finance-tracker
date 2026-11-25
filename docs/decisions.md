@@ -52,3 +52,8 @@ Dane demo nie są zapisywane do IndexedDB, bo i tak żyją w localStorage.
 Kwoty to liczby całkowite w jednostkach podstawowych z kodem ISO 4217 (jak w API). Wartość w PLN po kursie NBP z dnia
 transakcji jest zapisywana raz, więc raport z marca nie zmienia się, gdy zmieniają się kursy; raport w innej walucie
 głównej przelicza tę wartość po dzisiejszym kursie.
+
+## 2026-11-25: adres piggo-finance.web.app
+
+Właściciel wybrał bezpłatną drugą witrynę Firebase Hosting zamiast adresu z ID projektu i zamiast powrotu na GitHub
+Pages. Domyślna witryna zostaje i przekierowuje na nowy adres.

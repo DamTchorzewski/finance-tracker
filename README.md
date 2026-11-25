@@ -11,6 +11,8 @@
 
 ## About
 
+<a href="https://piggo-finance.web.app"><img src="docs/images/open-site.png" alt="Open the live site" width="130"></a>
+
 **finance-tracker** (brand **Piggo**) is version 2 of a personal finance app: accounts in any currency, transactions, budgets and the
 exchange rates of the National Bank of Poland in one calm, fast web app for the phone and the computer. It is the
 successor of the team project [`personal-finance-manager`](https://github.com/DamTchorzewski/personal-finance-manager),
@@ -42,10 +44,8 @@ from which this repository was copied with its history and then rebuilt from scr
 - **Built to the standards.** WCAG 2.2 AA in both themes (axe in the e2e tests), security headers and CSP on Firebase
   Hosting, heavy code (charts, Firebase) loaded on demand.
 
-> **Status:** release 1 in progress (2026-11-21): the app runs end to end in the demo; the sign-in and the live site
-> wait for the Google setup in [docs/deployment.md](docs/deployment.md). The plan is [docs/redesign-plan.md](docs/redesign-plan.md).
-> The app carries the Piggo brand ([docs/brand.md](docs/brand.md)). There is no live site yet, so no "Open site"
-> button.
+> **Status:** release 1 is live (2026-11-25) at [piggo-finance.web.app](https://piggo-finance.web.app), with the Piggo
+> brand ([docs/brand.md](docs/brand.md)). The plan is [docs/redesign-plan.md](docs/redesign-plan.md).
 
 ## Tech stack
 
@@ -126,7 +126,8 @@ src/
 public/                  theme.js (no flash of the wrong theme), icon, manifest
 tests/e2e/               smoke, flows and accessibility tests
 scripts/health-check.ts  the live check after a deploy and every Monday
-firebase.json            Hosting: headers, CSP, caching, /api rewrite
+firebase.json            Hosting: headers, CSP, caching, /api rewrite; the old address redirects
+hosting/old-address/     the service worker that cleans up at the old address
 ```
 
 ## Branches and workflows
@@ -140,8 +141,6 @@ Monday (`workflows.md`, level 3).
 
 - **Copied history of a team project:** the repository keeps the history of `personal-finance-manager` (team work) and
   its MIT notice, with the version 2 author added; see [docs/decisions.md](docs/decisions.md).
-- **No "Open site" button:** the app is not deployed yet (it waits for the Google setup); the frames show the local
-  preview address.
 
 ## Documentation
 
