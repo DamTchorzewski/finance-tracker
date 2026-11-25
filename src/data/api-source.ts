@@ -2,7 +2,7 @@ import type { DataSource, RatesSource } from "./source.ts";
 import { DataError, type ApiErrorBody, type TransactionQuery } from "./types.ts";
 
 /** The API lives on the same origin (/api, rewritten by Firebase Hosting); VITE_API_URL points elsewhere. */
-const BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, "") ?? "/api";
+const BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, "") || "/api";
 
 type TokenGetter = () => Promise<string | null>;
 
