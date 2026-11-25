@@ -41,7 +41,12 @@ export default defineConfig(({ mode }) => {
       // loadEnv also reads .env.local, which process.env does not see here; empty = the local API
       proxy: { "/api": env.VITE_API_PROXY || "http://localhost:8080" },
     },
-    build: { target: "es2023", sourcemap: false },
+    build: {
+      target: "es2023",
+      sourcemap: false,
+      // fonts stay files: the CSP (font-src 'self') blocks a font inlined as data:
+      assetsInlineLimit: (file) => (file.endsWith(".woff2") ? false : undefined),
+    },
     test: {
       environment: "jsdom",
       include: ["src/**/*.test.{ts,tsx}"],
