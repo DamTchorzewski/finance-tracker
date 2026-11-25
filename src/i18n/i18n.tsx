@@ -2,7 +2,7 @@ import { createContext, Fragment, useContext, useMemo, useState, type ReactNode 
 import { MESSAGES, type Locale, type Messages, type Plural } from "./messages.ts";
 
 /** "{name} has {n}" + { name: "Ala", n: 2 } → "Ala has 2" */
-export function fill(text: string, values: Record<string, string | number> = {}) {
+function fill(text: string, values: Record<string, string | number> = {}) {
   return text.replace(/\{(\w+)\}/g, (match, key: string) =>
     key in values ? String(values[key]) : match,
   );
@@ -19,7 +19,7 @@ export function fillNode(text: string, values: Record<string, ReactNode>): React
 const pluralRules = { pl: new Intl.PluralRules("pl-PL"), en: new Intl.PluralRules("en-GB") };
 
 /** Polish has one, few and many: 1 transakcja, 2 transakcje, 5 transakcji. */
-export function plural(locale: Locale, forms: Plural, n: number) {
+function plural(locale: Locale, forms: Plural, n: number) {
   const form = pluralRules[locale].select(n) as keyof Plural;
   return fill(forms[form] ?? forms.other, { n });
 }

@@ -5,6 +5,7 @@ import { useComposer } from "@/app/composer.tsx";
 import onboardingBudgets from "@/assets/illustrations/onboarding-budgets.svg?raw";
 import onboardingGoals from "@/assets/illustrations/onboarding-goals.svg?raw";
 import { Amount } from "@/components/ui/amount.tsx";
+import { BudgetMeter } from "@/components/ui/budget-meter.tsx";
 import { Button, buttonStyles } from "@/components/ui/button.tsx";
 import { Card, CardHeader, EmptyState, Skeleton } from "@/components/ui/card.tsx";
 import { useAccounts, useBudgets, useGoals, useTransactions } from "@/data/queries.ts";
@@ -281,26 +282,7 @@ export default function DashboardPage() {
                       <Amount minor={p.limit} currency={p.budget.currency} />
                     </span>
                   </div>
-                  <div
-                    role="meter"
-                    aria-label={category?.name}
-                    aria-valuemin={0}
-                    aria-valuemax={p.limit}
-                    aria-valuenow={Math.min(p.spent, p.limit)}
-                    className="h-2.5 overflow-hidden rounded-full bg-surface-2"
-                  >
-                    <div
-                      className={cn(
-                        "h-full rounded-full transition-[width] duration-700 ease-out",
-                        p.state === "over"
-                          ? "bg-negative"
-                          : p.state === "warning"
-                            ? "bg-warning"
-                            : "bg-accent",
-                      )}
-                      style={{ width: `${Math.min(100, p.ratio * 100)}%` }}
-                    />
-                  </div>
+                  <BudgetMeter progress={p} label={category?.name} className="h-2.5" />
                 </li>
               );
             })}

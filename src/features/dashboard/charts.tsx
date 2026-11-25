@@ -1,5 +1,6 @@
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { useI18n } from "@/i18n/i18n.tsx";
+import { AXIS_TICK, dayLabel, TOOLTIP_STYLE } from "@/lib/chart.ts";
 import { formatDay } from "@/lib/dates.ts";
 import { formatMoney } from "@/lib/money.ts";
 
@@ -29,21 +30,13 @@ export function CashflowChart({
             axisLine={false}
             interval="preserveStartEnd"
             minTickGap={24}
-            tick={{ fill: "var(--muted)", fontSize: 11 }}
+            tick={AXIS_TICK}
             tickFormatter={(day: string) => formatDay(day, locale)}
           />
           <Tooltip
             cursor={{ fill: "var(--surface-2)" }}
-            contentStyle={{
-              background: "var(--surface)",
-              border: "1px solid var(--border)",
-              borderRadius: 14,
-              color: "var(--fg)",
-              fontSize: 12,
-            }}
-            labelFormatter={(day) =>
-              typeof day === "string" ? formatDay(day, locale, "long") : ""
-            }
+            contentStyle={TOOLTIP_STYLE}
+            labelFormatter={dayLabel(locale)}
             formatter={(value, name) => [
               formatMoney(Number(value), currency, locale),
               name === "income" ? t.dashboard.income : t.dashboard.expenses,

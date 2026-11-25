@@ -1,6 +1,6 @@
 // Keyboard helpers: the platform's modifier key and a check that a shortcut does not steal typing.
 
-export const isMac = () =>
+const isMac = () =>
   typeof navigator !== "undefined" &&
   /mac|iphone|ipad/i.test(navigator.platform || navigator.userAgent);
 

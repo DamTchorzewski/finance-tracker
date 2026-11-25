@@ -1,4 +1,4 @@
-import { addDays, addMonths, today } from "@/lib/dates.ts";
+import { addMonths, today } from "@/lib/dates.ts";
 import { convertMinor } from "@/lib/money.ts";
 import { DEMO_RATES, DEFAULT_CATEGORIES } from "./seed.ts";
 import type { DataSource } from "./source.ts";
@@ -65,7 +65,7 @@ function frozen(amountMinor: number, currency: string, date: string) {
   };
 }
 
-export function sampleState(locale: "pl" | "en" = "pl", now = today()): State {
+function sampleState(locale: "pl" | "en" = "pl", now = today()): State {
   const at = stamp();
   const rnd = random(20261121);
   const categories: Category[] = DEFAULT_CATEGORIES.map((seed, order) => ({
@@ -758,6 +758,3 @@ export const demoSource: DataSource = {
 
   importV1: () => Promise.reject(new DataError(409, "conflict", "The demo has no version 1 data")),
 };
-
-/** Days of the demo that are "today" relative: kept for tests. */
-export const demoWindow = () => ({ from: addDays(addMonths(today(), -12), 0), to: today() });

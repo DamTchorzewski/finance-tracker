@@ -2,7 +2,7 @@
 
 const digitsCache = new Map<string, number>();
 
-export function minorDigits(code: string): number {
+function minorDigits(code: string): number {
   let digits = digitsCache.get(code);
   if (digits === undefined) {
     digits =

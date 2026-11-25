@@ -1,4 +1,4 @@
-import { AlertTriangle, CircleCheck, Plus, Trash2 } from "lucide-react";
+import { AlertTriangle, CircleCheck, Plus } from "lucide-react";
 import emptyBudgets from "@/assets/illustrations/empty-budgets.svg?raw";
 import allCaughtUp from "@/assets/illustrations/all-caught-up.svg?raw";
 import { Illustration } from "@/components/brand/illustration.tsx";
@@ -6,9 +6,11 @@ import { SuccessCheck } from "@/components/brand/motion.tsx";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { Amount } from "@/components/ui/amount.tsx";
+import { BudgetMeter } from "@/components/ui/budget-meter.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, EmptyState, Skeleton } from "@/components/ui/card.tsx";
 import { Field, Input, Select, Switch } from "@/components/ui/field.tsx";
+import { FormFooter } from "@/components/ui/form-footer.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
 import { useBudgetMutations, useBudgets, useCategories, useTransactions } from "@/data/queries.ts";
 import { DataError, type Budget } from "@/data/types.ts";
@@ -66,28 +68,17 @@ function BudgetSheet({
       onOpenChange={onOpenChange}
       title={budget ? t.edit : t.budgets.new}
       footer={
-        <div className="flex gap-2">
-          {budget && (
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={t.delete}
-              className="text-negative"
-              onClick={async () => {
-                await remove.mutateAsync(budget.id);
-                onOpenChange(false);
-              }}
-            >
-              <Trash2 aria-hidden="true" />
-            </Button>
-          )}
-          <Button variant="secondary" className="flex-1" onClick={() => onOpenChange(false)}>
-            {t.cancel}
-          </Button>
-          <Button type="submit" form="budget-form" className="flex-[2]">
-            {t.save}
-          </Button>
-        </div>
+        <FormFooter
+          form="budget-form"
+          onCancel={() => onOpenChange(false)}
+          onDelete={
+            budget &&
+            (async () => {
+              await remove.mutateAsync(budget.id);
+              onOpenChange(false);
+            })
+          }
+        />
       }
     >
       <form
@@ -213,27 +204,12 @@ export default function BudgetsPage() {
                         {t.edit}
                       </Button>
                     </div>
-                    <div
-                      role="meter"
-                      aria-label={category?.name}
-                      aria-valuemin={0}
-                      aria-valuemax={p.limit}
-                      aria-valuenow={Math.min(p.spent, p.limit)}
-                      aria-valuetext={percent(p.ratio)}
-                      className="h-3 overflow-hidden rounded-full bg-surface-2"
-                    >
-                      <div
-                        className={cn(
-                          "h-full rounded-full transition-[width] duration-700 ease-out",
-                          p.state === "over"
-                            ? "bg-negative"
-                            : p.state === "warning"
-                              ? "bg-warning"
-                              : "bg-accent",
-                        )}
-                        style={{ width: `${Math.min(100, p.ratio * 100)}%` }}
-                      />
-                    </div>
+                    <BudgetMeter
+                      progress={p}
+                      label={category?.name}
+                      valueText={percent(p.ratio)}
+                      className="h-3"
+                    />
                     <p
                       className={cn(
                         "flex items-center gap-1.5 text-sm font-semibold",

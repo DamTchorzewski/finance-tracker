@@ -1,10 +1,10 @@
-import { Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { lazy, Suspense, useRef, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import type { Draft } from "@/app/composer.tsx";
 import { SuccessCheck } from "@/components/brand/motion.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { Field, Input, Segmented, Select } from "@/components/ui/field.tsx";
+import { FormFooter } from "@/components/ui/form-footer.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
 import { useAccounts, useCategories, useTransactionMutations } from "@/data/queries.ts";
 import { DataError, type Transaction, type TransactionCreate, type TxKind } from "@/data/types.ts";
@@ -149,25 +149,12 @@ export default function TransactionSheet({
       onOpenChange={onOpenChange}
       title={edit ? t.tx.editTitle : t.tx.new}
       footer={
-        <div className="flex gap-2">
-          {edit && (
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={t.delete}
-              onClick={() => void onDelete()}
-              className="text-negative"
-            >
-              <Trash2 aria-hidden="true" />
-            </Button>
-          )}
-          <Button variant="secondary" className="flex-1" onClick={() => onOpenChange(false)}>
-            {t.cancel}
-          </Button>
-          <Button type="submit" form="transaction-form" className="flex-[2]" disabled={busy}>
-            {t.save}
-          </Button>
-        </div>
+        <FormFooter
+          form="transaction-form"
+          busy={busy}
+          onCancel={() => onOpenChange(false)}
+          onDelete={edit && onDelete}
+        />
       }
     >
       <form

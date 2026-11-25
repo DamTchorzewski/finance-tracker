@@ -7,7 +7,6 @@ import {
   Landmark,
   PiggyBank,
   Plus,
-  Trash2,
   type LucideIcon,
 } from "lucide-react";
 import { useState, type FormEvent } from "react";
@@ -17,6 +16,7 @@ import { Amount } from "@/components/ui/amount.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, EmptyState, Skeleton } from "@/components/ui/card.tsx";
 import { Field, Input, Select } from "@/components/ui/field.tsx";
+import { FormFooter } from "@/components/ui/form-footer.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
 import { useAccountMutations, useAccounts } from "@/data/queries.ts";
 import { DataError, type Account } from "@/data/types.ts";
@@ -93,36 +93,25 @@ function AccountSheet({
       onOpenChange={onOpenChange}
       title={account ? account.name : t.accounts.new}
       footer={
-        <div className="flex gap-2">
-          {account && (
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={t.delete}
-              className="text-negative"
-              onClick={async () => {
-                try {
-                  await remove.mutateAsync(account.id);
-                  onOpenChange(false);
-                } catch (err) {
-                  toast.error(
-                    err instanceof DataError && err.status === 409
-                      ? t.accounts.inUse
-                      : t.somethingWrong,
-                  );
-                }
-              }}
-            >
-              <Trash2 aria-hidden="true" />
-            </Button>
-          )}
-          <Button variant="secondary" className="flex-1" onClick={() => onOpenChange(false)}>
-            {t.cancel}
-          </Button>
-          <Button type="submit" form="account-form" className="flex-[2]">
-            {t.save}
-          </Button>
-        </div>
+        <FormFooter
+          form="account-form"
+          onCancel={() => onOpenChange(false)}
+          onDelete={
+            account &&
+            (async () => {
+              try {
+                await remove.mutateAsync(account.id);
+                onOpenChange(false);
+              } catch (err) {
+                toast.error(
+                  err instanceof DataError && err.status === 409
+                    ? t.accounts.inUse
+                    : t.somethingWrong,
+                );
+              }
+            })
+          }
+        />
       }
     >
       <form

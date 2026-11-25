@@ -1,5 +1,6 @@
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useI18n } from "@/i18n/i18n.tsx";
+import { AXIS_TICK, dayLabel, TOOLTIP_STYLE } from "@/lib/chart.ts";
 import { formatDay } from "@/lib/dates.ts";
 
 export default function HistoryChart({ points }: { points: { date: string; mid: number }[] }) {
@@ -25,7 +26,7 @@ export default function HistoryChart({ points }: { points: { date: string; mid: 
             tickLine={false}
             axisLine={false}
             minTickGap={32}
-            tick={{ fill: "var(--muted)", fontSize: 11 }}
+            tick={AXIS_TICK}
             tickFormatter={(day: string) => formatDay(day, locale)}
           />
           <YAxis
@@ -33,20 +34,12 @@ export default function HistoryChart({ points }: { points: { date: string; mid: 
             width={52}
             tickLine={false}
             axisLine={false}
-            tick={{ fill: "var(--muted)", fontSize: 11 }}
+            tick={AXIS_TICK}
             tickFormatter={(value: number) => value.toFixed(2)}
           />
           <Tooltip
-            contentStyle={{
-              background: "var(--surface)",
-              border: "1px solid var(--border)",
-              borderRadius: 14,
-              color: "var(--fg)",
-              fontSize: 12,
-            }}
-            labelFormatter={(day) =>
-              typeof day === "string" ? formatDay(day, locale, "long") : ""
-            }
+            contentStyle={TOOLTIP_STYLE}
+            labelFormatter={dayLabel(locale)}
             formatter={(value) => [number(Number(value)), "PLN"]}
           />
           <Area

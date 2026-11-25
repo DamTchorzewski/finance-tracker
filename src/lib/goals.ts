@@ -1,7 +1,7 @@
 import type { Contribution, Goal } from "@/data/types.ts";
 import { daysBetween, today } from "./dates.ts";
 
-export type GoalState = "done" | "on-track" | "behind" | "no-date" | "overdue";
+type GoalState = "done" | "on-track" | "behind" | "no-date" | "overdue";
 
 export interface GoalPace {
   ratio: number;

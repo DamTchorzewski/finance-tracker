@@ -19,7 +19,7 @@ const WORDMARK = bare(wordmarkSvg)
 
 const svgBox = "[&>svg]:block [&>svg]:size-full";
 
-export function PiggoMark({ size = 36, className }: { size?: number; className?: string }) {
+function PiggoMark({ size = 36, className }: { size?: number; className?: string }) {
   return (
     <span
       aria-hidden="true"
@@ -32,7 +32,7 @@ export function PiggoMark({ size = 36, className }: { size?: number; className?:
 }
 
 /** The wordmark at a given height; its width follows the drawing (108 : 48). */
-export function PiggoWordmark({ height = 22, className }: { height?: number; className?: string }) {
+function PiggoWordmark({ height = 22, className }: { height?: number; className?: string }) {
   return (
     <span
       aria-hidden="true"

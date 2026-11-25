@@ -6,13 +6,13 @@ import { SuccessCheck } from "@/components/brand/motion.tsx";
 import { Amount } from "@/components/ui/amount.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Field, Input, Segmented, Select } from "@/components/ui/field.tsx";
+import { FormFooter } from "@/components/ui/form-footer.tsx";
+import { ColourPicker, IconPicker } from "@/components/ui/look-picker.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
 import { useAccounts, useContributions, useGoalMutations } from "@/data/queries.ts";
 import { DataError, type CategoryColour, type Goal } from "@/data/types.ts";
 import { useI18n } from "@/i18n/i18n.tsx";
-import { cn } from "@/lib/cn.ts";
 import { formatDay, today } from "@/lib/dates.ts";
-import { CATEGORY_ICONS, colourVar } from "@/lib/icons.ts";
 import { amountInput, parseAmount } from "@/lib/money.ts";
 import { useBase } from "../shared.tsx";
 
@@ -98,28 +98,17 @@ export function GoalSheet({
       onOpenChange={onOpenChange}
       title={goal ? goal.name : t.goals.new}
       footer={
-        <div className="flex gap-2">
-          {goal && (
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={t.delete}
-              className="text-negative"
-              onClick={async () => {
-                await remove.mutateAsync(goal.id);
-                onOpenChange(false);
-              }}
-            >
-              <Trash2 aria-hidden="true" />
-            </Button>
-          )}
-          <Button variant="secondary" className="flex-1" onClick={() => onOpenChange(false)}>
-            {t.cancel}
-          </Button>
-          <Button type="submit" form="goal-form" className="flex-[2]">
-            {t.save}
-          </Button>
-        </div>
+        <FormFooter
+          form="goal-form"
+          onCancel={() => onOpenChange(false)}
+          onDelete={
+            goal &&
+            (async () => {
+              await remove.mutateAsync(goal.id);
+              onOpenChange(false);
+            })
+          }
+        />
       }
     >
       <form
@@ -178,50 +167,8 @@ export function GoalSheet({
             </Select>
           )}
         </Field>
-        <fieldset>
-          <legend className="mb-2 text-sm font-semibold">{t.categories.colour}</legend>
-          <div className="flex flex-wrap gap-2">
-            {COLOURS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                aria-label={t.categories.colours[c]}
-                aria-pressed={c === colour}
-                onClick={() => setColour(c)}
-                className={cn(
-                  "size-9 rounded-full ring-offset-2 ring-offset-[var(--surface)]",
-                  c === colour && "ring-2 ring-foreground",
-                )}
-                style={{ background: colourVar(c) }}
-              />
-            ))}
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend className="mb-2 text-sm font-semibold">{t.categories.icon}</legend>
-          <div className="grid grid-cols-6 gap-2">
-            {ICONS.map((key) => {
-              const Icon = CATEGORY_ICONS[key];
-              return Icon ? (
-                <button
-                  key={key}
-                  type="button"
-                  aria-label={key.replaceAll("-", " ")}
-                  aria-pressed={key === icon}
-                  onClick={() => setIcon(key)}
-                  className={cn(
-                    "grid aspect-square place-items-center rounded-xl border transition-colors",
-                    key === icon
-                      ? "border-accent bg-accent-soft"
-                      : "border-border hover:bg-surface-2",
-                  )}
-                >
-                  <Icon aria-hidden="true" className="size-5" />
-                </button>
-              ) : null;
-            })}
-          </div>
-        </fieldset>
+        <ColourPicker colours={COLOURS} value={colour} onChange={setColour} />
+        <IconPicker icons={ICONS} value={icon} onChange={setIcon} />
       </form>
     </Sheet>
   );
@@ -282,19 +229,12 @@ export function ContributeSheet({
       title={goal.name}
       description={t.goals.contributeLead}
       footer={
-        <div className="flex gap-2">
-          <Button variant="secondary" className="flex-1" onClick={() => onOpenChange(false)}>
-            {t.cancel}
-          </Button>
-          <Button
-            type="submit"
-            form="contribute-form"
-            className="flex-[2]"
-            disabled={contribute.isPending}
-          >
-            {direction === "in" ? t.goals.putIn : t.goals.takeOut}
-          </Button>
-        </div>
+        <FormFooter
+          form="contribute-form"
+          submitLabel={direction === "in" ? t.goals.putIn : t.goals.takeOut}
+          busy={contribute.isPending}
+          onCancel={() => onOpenChange(false)}
+        />
       }
     >
       <form

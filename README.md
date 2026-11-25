@@ -119,7 +119,7 @@ src/
   auth/                  Firebase sign-in (loaded on demand) and the session: nobody, demo or a user
   data/                ★ the data source interface, the API source, the demo source and its sample data, queries
   features/            ★ one folder per screen: dashboard, transactions, accounts, budgets, currencies, settings
-  components/ui/         button, card, field, sheet, amount
+  components/ui/         button, card, field, sheet, form footer, pickers, budget meter, amount
   i18n/                ★ messages.ts: every text in Polish and English
   lib/                   money, dates and pay months, statistics, CSV, quick add (with tests)
   styles/app.css       ★ design tokens (OKLCH, accent hue), themes, utilities

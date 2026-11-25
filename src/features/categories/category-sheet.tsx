@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
 import { Field, Input, Segmented } from "@/components/ui/field.tsx";
+import { FormFooter } from "@/components/ui/form-footer.tsx";
+import { ColourPicker, IconPicker } from "@/components/ui/look-picker.tsx";
 import { Sheet } from "@/components/ui/sheet.tsx";
 import { useCategoryMutations } from "@/data/queries.ts";
 import { DataError, type Category, type CategoryColour } from "@/data/types.ts";
 import { useI18n } from "@/i18n/i18n.tsx";
-import { cn } from "@/lib/cn.ts";
-import { CATEGORY_ICONS, colourVar } from "@/lib/icons.ts";
+import { CATEGORY_ICONS } from "@/lib/icons.ts";
 import { CategoryBadge } from "../shared.tsx";
 
 const COLOURS: CategoryColour[] = [
@@ -76,16 +76,7 @@ export default function CategorySheet({
       open={open}
       onOpenChange={onOpenChange}
       title={category ? category.name : t.categories.new}
-      footer={
-        <div className="flex gap-2">
-          <Button variant="secondary" className="flex-1" onClick={() => onOpenChange(false)}>
-            {t.cancel}
-          </Button>
-          <Button type="submit" form="category-form" className="flex-[2]" disabled={busy}>
-            {t.save}
-          </Button>
-        </div>
-      }
+      footer={<FormFooter form="category-form" busy={busy} onCancel={() => onOpenChange(false)} />}
     >
       <form
         id="category-form"
@@ -119,47 +110,13 @@ export default function CategorySheet({
             />
           )}
         </Field>
-        <fieldset>
-          <legend className="mb-2 text-sm font-semibold">{t.categories.colour}</legend>
-          <div className="flex flex-wrap gap-2">
-            {COLOURS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                aria-label={t.categories.colours[c]}
-                aria-pressed={c === colour}
-                onClick={() => setColour(c)}
-                className={cn(
-                  "size-9 rounded-full ring-offset-2 ring-offset-[var(--surface)]",
-                  c === colour && "ring-2 ring-foreground",
-                )}
-                style={{ background: colourVar(c) }}
-              />
-            ))}
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend className="mb-2 text-sm font-semibold">{t.categories.icon}</legend>
-          <div className="grid grid-cols-6 gap-2 sm:grid-cols-8">
-            {Object.entries(CATEGORY_ICONS).map(([key, Icon]) => (
-              <button
-                key={key}
-                type="button"
-                aria-label={key.replaceAll("-", " ")}
-                aria-pressed={key === icon}
-                onClick={() => setIcon(key)}
-                className={cn(
-                  "grid aspect-square place-items-center rounded-xl border transition-colors",
-                  key === icon
-                    ? "border-accent bg-accent-soft"
-                    : "border-border hover:bg-surface-2",
-                )}
-              >
-                <Icon aria-hidden="true" className="size-5" />
-              </button>
-            ))}
-          </div>
-        </fieldset>
+        <ColourPicker colours={COLOURS} value={colour} onChange={setColour} />
+        <IconPicker
+          icons={Object.keys(CATEGORY_ICONS)}
+          value={icon}
+          onChange={setIcon}
+          className="sm:grid-cols-8"
+        />
       </form>
     </Sheet>
   );
